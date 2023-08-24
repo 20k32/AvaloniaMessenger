@@ -9,17 +9,21 @@
     <Setter Property="Template">
       <ControlTemplate>
         <Grid ColumnDefinitions="Auto, 10">
+          <Border Grid.Column="0"
+                  Background="Yellow"
+                  CornerRadius="4, 4, 0, 4">
             <TextBlock Text="Message From client"
                        x:Name="MessageTextBlock"
-                       Grid.Column="0"
                        HorizontalAlignment="Left"/>
+          </Border>
+
+          <!-- Symmetric transofrm (not rotatetransofrm!) this in codebehind -->
           <Canvas Grid.Column="1"
                   Width="10"
                   Height="10"
                   VerticalAlignment="Bottom"
                   HorizontalAlignment="Left">
-            <Path Stroke="Black" StrokeThickness="1"
-                  Fill="Black">
+            <Path Fill="Yellow">
               <Path.Data>
                 <PathGeometry>
                   <PathFigure>
