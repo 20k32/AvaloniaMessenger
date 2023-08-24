@@ -8,7 +8,7 @@
         x:Class="DesktopClient.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="DesktopClient"
-        x:DataType="vm:MainWindowModel">
+        x:DataType="vm:MainWindowViewModel">
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition MaxWidth="600"

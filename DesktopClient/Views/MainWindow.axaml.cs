@@ -1,11 +1,13 @@
 ﻿using Avalonia.Controls;
+using DesktopClient.ViewModels;
 
 namespace DesktopClient.Views;
 
-public partial class MainWindow : Window
+internal sealed partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(MainWindowViewModel viewModel)
     {
         InitializeComponent();
+        DataContext = viewModel;
     }
 }

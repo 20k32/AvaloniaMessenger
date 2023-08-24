@@ -2,13 +2,13 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-
 using DesktopClient.ViewModels;
 using DesktopClient.Views;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DesktopClient;
 
-public partial class App : Application
+public sealed partial class App : Application
 {
     public override void Initialize()
     {
@@ -17,16 +17,16 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var provider = new ServiceCollection()
+            .ConfigureServices();
+        
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainWindowModel()
-            };
+            desktop.MainWindow = provider.GetRequiredService<MainWindow>();
         }
 
         base.OnFrameworkInitializationCompleted();

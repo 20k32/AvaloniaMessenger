@@ -2,11 +2,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="using:DesktopClient.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="DesktopClient.Views.ChatView">
+             x:Class="DesktopClient.Views.ChatView"
+             x:DataType="local:ChatView"
+             x:Name="ChatViewControl">
   <Grid RowDefinitions="*, Auto">
-    <Panel Background="Green"
-           Grid.Row="0"/>
+    <ItemsControl Background="Green"
+                  ItemsSource="{Binding #ChatViewControl.Messages}"
+                  Grid.Row="0">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="*, *"
+                VerticalAlignment="Center">
+              <local:UIMessage Grid.Column="{Binding BaseMessage.IsMessageYours}"/>
+          </Grid>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
     <Grid Grid.Row="1"
           Background="Beige"
           ColumnDefinitions="Auto, *, Auto">

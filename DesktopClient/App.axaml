@@ -8,5 +8,6 @@
       <FluentTheme />
       <StyleInclude Source="avares://DesktopClient/Styles/ChatViewStyles.axaml"/>
       <StyleInclude Source="avares://DesktopClient/Styles/AvaliableUsersViewStyles.axaml"/>
+      <StyleInclude Source="avares://DesktopClient/Views/UIMessage.axaml"/>
     </Application.Styles>
 </Application>

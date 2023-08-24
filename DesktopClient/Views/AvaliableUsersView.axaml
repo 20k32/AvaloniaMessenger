@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:local="using:DesktopClient.Views"
+             xmlns:model="using:DesktopClient.Models.ListBox"
              x:Class="DesktopClient.Views.AvaliableUsersView"
-             x:CompileBindings="False"
              x:Name="AvaliableUsersControl">
   <Grid RowDefinitions="Auto, *"
           Background="Red"
@@ -23,7 +23,7 @@
                   ItemsSource="{Binding #AvaliableUsersControl.Items}"
                   Background="AliceBlue">
       <ItemsControl.ItemTemplate>
-        <DataTemplate>
+        <DataTemplate x:DataType="model:ListBoxItemBase">
          <ListBoxItem Content="{Binding Description}"
                       Classes.AvaliableUsers_Categories="{Binding IsCategory}"
                       Classes.AvaliableUsers_Users="{Binding IsUser}"

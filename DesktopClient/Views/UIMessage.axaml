@@ -1,0 +1,38 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:DesktopClient.Views">
+  <Design.PreviewWith>
+    <controls:UIMessage />
+  </Design.PreviewWith>
+
+  <Style Selector="controls|UIMessage">
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid ColumnDefinitions="Auto, 10">
+            <TextBlock Text="Message From client"
+                       x:Name="MessageTextBlock"
+                       Grid.Column="0"
+                       HorizontalAlignment="Left"/>
+          <Canvas Grid.Column="1"
+                  Width="10"
+                  Height="10"
+                  VerticalAlignment="Bottom"
+                  HorizontalAlignment="Left">
+            <Path Stroke="Black" StrokeThickness="1"
+                  Fill="Black">
+              <Path.Data>
+                <PathGeometry>
+                  <PathFigure>
+                    <LineSegment Point="0, 0"/>
+                    <LineSegment Point="10, 5"/>
+                    <LineSegment Point="0, 10"/>
+                  </PathFigure>
+                </PathGeometry>
+              </Path.Data>
+            </Path>
+          </Canvas>
+          </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

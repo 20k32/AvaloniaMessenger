@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DesktopClient.Models.ListBox
+﻿namespace DesktopClient.Models.ListBox
 {
-    internal class ListBoxItemMessage : ListBoxItemBase
+    internal sealed class ListBoxItemMessage : ListBoxItemBase
     {
         public ListBoxItemMessage(string description) : base(description, isMessage: true)
         { }
