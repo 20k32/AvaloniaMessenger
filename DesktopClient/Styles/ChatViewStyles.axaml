@@ -1,0 +1,51 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+      <Grid RowDefinitions="*, Auto"
+            Height="600"
+            Width="500">
+        <Panel Background="Green"
+               Grid.Row="0"/>
+        <Grid Grid.Row="1"
+              Background="Beige"
+              ColumnDefinitions="Auto, *, Auto">
+          <Button Content="Photo"
+                  Classes="Chat"
+                  Grid.Column="0"/>
+          <TextBox Text="some message"
+                   Classes="Chat"
+                   Grid.Column="1"/>
+          <Button Content="Send"
+                  Classes="Chat"
+                  Grid.Column="2"/>
+        </Grid>
+      </Grid>
+    </Design.PreviewWith>
+
+  <!-- TextBox for searching users -->
+  <Style Selector="TextBox.Chat">
+    <Setter Property="Watermark" Value="Search"/>
+    <Setter Property="Margin" Value="5"/>
+  </Style>
+
+  <Style Selector="TextBox.Chat /template/ Border#PART_BorderElement">
+    <Setter Property="CornerRadius" Value="20"/>
+    <Setter Property="Background" Value="LightCoral"/>
+    <Setter Property="BorderBrush" Value="Transparent"/>
+  </Style>
+
+  <Style Selector="TextBox.Chat /template/ DockPanel#PART_InnerDockPanel">
+    <Setter Property="Margin" Value="10"/>
+  </Style>
+
+  <!-- Grid for holding controls for searching users-->
+  <Style Selector="Grid.Chat">
+    <Setter Property="Margin" Value="5"/>
+    <Setter Property="Background" Value="BlanchedAlmond"/>
+  </Style>
+
+  <!-- Button for extra command -->
+  <Style Selector="Button.Chat">
+    <Setter Property="Margin" Value="5"/>
+  </Style>
+</Styles>

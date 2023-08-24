@@ -1,0 +1,30 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DesktopClient.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:DesktopClient.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="DesktopClient.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="DesktopClient"
+        x:DataType="vm:MainWindowModel">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition MaxWidth="600"
+                        MinWidth="300"/>
+      <ColumnDefinition Width="4"/>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+    
+    <views:AvaliableUsersView Grid.Column="0"/>
+    
+    <GridSplitter Grid.Column="1"
+                  Background="Black"
+                  ResizeDirection="Columns"
+                  ResizeBehavior="PreviousAndNext"/>
+    
+    <views:ChatView Grid.Column="2"/>
+    
+  </Grid>
+</Window>

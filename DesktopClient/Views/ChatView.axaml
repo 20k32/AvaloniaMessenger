@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="DesktopClient.Views.ChatView">
+  <Grid RowDefinitions="*, Auto">
+    <Panel Background="Green"
+           Grid.Row="0"/>
+    <Grid Grid.Row="1"
+          Background="Beige"
+          ColumnDefinitions="Auto, *, Auto">
+      <Button Content="Photo"
+              Classes="Chat"
+              Grid.Column="0"/>
+      <TextBox Text="some message"
+               Classes="Chat"
+               Grid.Column="1"/>
+      <Button Content="Send"
+              Classes="Chat"
+              Grid.Column="2"/>
+    </Grid>
+  </Grid>
+
+</UserControl>
