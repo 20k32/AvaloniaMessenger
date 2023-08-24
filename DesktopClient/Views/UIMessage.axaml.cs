@@ -26,8 +26,6 @@ namespace DesktopClient.Views
                 // the message arrow indicates left -- <(...)
                 case 0:
                     {
-                        _border.CornerRadius = new CornerRadius(4, 0, 4, 4);
-
                         var path = new Path();
 
                         path.Fill = Brushes.Aqua;
@@ -54,6 +52,7 @@ namespace DesktopClient.Views
                             }
                         };
 
+                        _border.CornerRadius = new CornerRadius(4, 4, 4, 0);
                         _canvas.Children.Add(path);
                         Grid.SetColumn(_border, 1);
                         Grid.SetColumn(_canvas, 0);

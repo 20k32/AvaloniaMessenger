@@ -15,7 +15,9 @@
         <DataTemplate>
           <Grid ColumnDefinitions="*, *"
                 VerticalAlignment="Center">
-              <local:UIMessage Grid.Column="{Binding BaseMessage.IsMessageYours}"/>
+              <local:UIMessage Grid.Column="{Binding BaseMessage.IsMessageYours}"
+                               HorizontalAlignment="{Binding Alignment}"
+                               Margin="{Binding Margin}"/>
           </Grid>
         </DataTemplate>
       </ItemsControl.ItemTemplate>

@@ -27,7 +27,7 @@ namespace DesktopClient.Models.Messages
             if (isMessageYours)
             {
                 Alignment = HorizontalAlignment.Right;
-                Margin = new Thickness(0, 5, 15, 30);
+                Margin = new Thickness(0, 5, 2, 0);
             }
             else
             {
