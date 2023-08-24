@@ -21,7 +21,6 @@ namespace DesktopClient.Views
         public AvaliableUsersView()
         {
             InitializeComponent();
-
         }
     }
 }
