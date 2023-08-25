@@ -10,4 +10,8 @@
       <StyleInclude Source="avares://DesktopClient/Styles/AvaliableUsersViewStyles.axaml"/>
       <StyleInclude Source="avares://DesktopClient/Views/UIMessage.axaml"/>
     </Application.Styles>
+
+  <Application.Resources>
+    <FontFamily x:Key="NunitoFont">avares://DesktopClient/Assets/Fonts#Nunito</FontFamily>
+  </Application.Resources>
 </Application>

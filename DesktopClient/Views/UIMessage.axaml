@@ -1,3 +1,5 @@
+<!-- user_control may be better solution for this -->
+
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:DesktopClient.Views"
@@ -16,7 +18,9 @@
             <TextBlock Text="Message From client"
                        x:Name="MessageTextBlock"
                        HorizontalAlignment="Left"
-                       Margin="5"/>
+                       Margin="8"
+                       FontSize="18"
+                       FontWeight="Medium"/>
           </Border>
 
           <Canvas Grid.Column="1"
