@@ -6,7 +6,7 @@ namespace DesktopClient.Models.ListBox
     {
         public ListBoxItemUser(string userName) : base(isUser: true)
         {
-            Description = new UIUser();
+            Description = new UIUser(userName);
         }
     }
 }

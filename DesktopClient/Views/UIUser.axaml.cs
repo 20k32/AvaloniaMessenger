@@ -8,5 +8,10 @@ namespace DesktopClient.Views
         {
             InitializeComponent();
         }
+
+        public UIUser(string userName) : this()
+        {
+            UserNameTextBlock.Text = userName;
+        }
     }
 }
