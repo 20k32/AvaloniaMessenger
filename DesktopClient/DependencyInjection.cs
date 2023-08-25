@@ -1,4 +1,5 @@
-﻿using DesktopClient.ViewModels;
+﻿using Avalonia;
+using DesktopClient.ViewModels;
 using DesktopClient.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;

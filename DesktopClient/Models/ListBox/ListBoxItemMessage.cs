@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using DesktopClient.Views;
 
 namespace DesktopClient.Models.ListBox
 {
@@ -6,10 +7,7 @@ namespace DesktopClient.Models.ListBox
     {
         public ListBoxItemMessage(string text) : base(isMessage: true)
         {
-            Description = new TextBlock()
-            {
-                Text = text
-            };
+            Description = new UISearchedMessage(text);
         }
     }
 }

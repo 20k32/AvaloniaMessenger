@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace DesktopClient.Models.Messages
 {
-    internal sealed class Message
+    internal sealed class ChatMessage
     {
         public MessageBase BaseMessage { get; init; } 
         public HorizontalAlignment Alignment { get; init; }
         public Thickness Margin { get; init; }
 
-        public Message(string messageText, bool isMessageYours)
+        public ChatMessage(string messageText, bool isMessageYours)
         {
             BaseMessage = new()
             {

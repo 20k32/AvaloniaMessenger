@@ -5,10 +5,10 @@
         xmlns:controls="using:DesktopClient.Views"
         x:CompileBindings="False">
   <Design.PreviewWith>
-    <controls:UIMessage />
+    <controls:Message />
   </Design.PreviewWith>
 
-  <Style Selector="controls|UIMessage">
+  <Style Selector="controls|Message">
     <Setter Property="Template">
       <ControlTemplate>
         <Grid ColumnDefinitions="Auto, Auto">

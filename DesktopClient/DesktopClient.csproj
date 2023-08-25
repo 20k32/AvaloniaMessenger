@@ -74,8 +74,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\UIMessage.axaml.cs">
-      <DependentUpon>UIMessage.axaml</DependentUpon>
+    <Compile Update="Views\Message.axaml.cs">
+      <DependentUpon>Message.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

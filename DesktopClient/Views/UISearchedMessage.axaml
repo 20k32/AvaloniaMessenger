@@ -3,18 +3,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="DesktopClient.Views.UIUser">
+             x:Class="DesktopClient.Views.UISearchedMessage">
   <Border Classes="UIBorder"
-          Background="Beige"
-          x:Name="Ui_Border">
+          Background="Bisque"
+          x:Name="UI_Border">
     <StackPanel Classes="UIStackPanel">
-      <PathIcon Data="{StaticResource AnotherUserIcon}"
+      <PathIcon Data="{StaticResource LetterIcon}"
                 Classes="UIPathIcon"/>
-      <Panel Width="{Binding #Ui_Border.BorderThickness.Left}"
-             Classes="UIPanel"/>
-      <TextBlock x:Name="UserNameTextBlock"
+      <Panel Classes="UIPanel"
+             Width="{Binding #UI_Border.BorderThickness.Left}"/>
+      <TextBlock x:Name="LetterTextBlock"
                  Classes="UITextBlock"/>
     </StackPanel>
   </Border>
-
 </UserControl>

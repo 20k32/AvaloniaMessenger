@@ -6,7 +6,7 @@ namespace DesktopClient.Views
 {
     public sealed partial class ChatView : UserControl
     {
-        internal ObservableCollection<Message> Messages => new()
+        internal ObservableCollection<ChatMessage> Messages => new()
         {
             new("Hi", true),
             new("hello", false),

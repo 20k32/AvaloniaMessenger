@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 
 namespace DesktopClient.Views
 {
-    public class UIMessage : TemplatedControl, INotifyPropertyChanged
+    public class Message : TemplatedControl, INotifyPropertyChanged
     {
         private const string PART_CANVAS_NAME = "PART_CANVAS";
         private const string PART_BORDER_NAME = "PART_BORDER";
@@ -70,8 +70,8 @@ namespace DesktopClient.Views
 
         #region MessageBackground
 
-        public static readonly DirectProperty<UIMessage, Color> BackgroundColorProperty =
-            AvaloniaProperty.RegisterDirect<UIMessage, Color>(
+        public static readonly DirectProperty<Message, Color> BackgroundColorProperty =
+            AvaloniaProperty.RegisterDirect<Message, Color>(
                 nameof(BackgroundColor),
                 getter => getter.BackgroundColor,
                 (setter, value) => setter.BackgroundColor = value);
