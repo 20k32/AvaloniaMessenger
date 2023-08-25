@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
+using Avalonia.VisualTree;
+using DesktopClient.Models.Drawing;
 
 namespace DesktopClient.Views
 {
@@ -26,34 +28,11 @@ namespace DesktopClient.Views
                 // the message arrow indicates left -- <(...)
                 case 0:
                     {
-                        var path = new Path();
+                        var path = ArrowDrawingHelper.DrawLeftArrow(Brushes.AliceBlue, Brushes.AliceBlue, 1);
 
-                        path.Fill = Brushes.Aqua;
-
-                        path.Data = new PathGeometry()
-                        {
-                            Figures = new PathFigures()
-                            {
-                                new PathFigure()
-                                {
-                                    StartPoint = new Point(10, 0),
-                                    Segments = new PathSegments()
-                                    {
-                                        new LineSegment()
-                                        {
-                                            Point = new Point(0, 5),
-                                        },
-                                        new LineSegment()
-                                        {
-                                            Point = new Point(10, 10)
-                                        }
-                                    }
-                                }
-                            }
-                        };
-
-                        _border.CornerRadius = new CornerRadius(4, 4, 4, 0);
+                        _border.CornerRadius = ArrowDrawingHelper.LeftRoundedRadius;
                         _canvas.Children.Add(path);
+
                         Grid.SetColumn(_border, 1);
                         Grid.SetColumn(_canvas, 0);
                     } break;
@@ -61,34 +40,10 @@ namespace DesktopClient.Views
                 // the message arrow indicates right -- (...)>
                 case 1:
                     {
-                        var path = new Path();
+                        var path = ArrowDrawingHelper.DrawRightArrow(Brushes.AliceBlue, Brushes.AliceBlue, 1);
 
-                        path.Fill = Brushes.Red;
-
-                        path.Data = new PathGeometry()
-                        {
-                            Figures = new PathFigures()
-                            {
-                                new PathFigure()
-                                {
-                                    StartPoint = new Point(0, 0),
-                                    Segments = new PathSegments()
-                                    {
-                                        new LineSegment()
-                                        {
-                                            Point = new Point(10, 5),
-                                        },
-                                        new LineSegment()
-                                        {
-                                            Point = new Point(0, 10)
-                                        }
-                                    }
-                                }
-                            }
-                        };
-
+                        _border.CornerRadius = ArrowDrawingHelper.RightRoundedRadius;
                         _canvas.Children.Add(path);
-                        _border.CornerRadius = new CornerRadius(4, 4, 0, 4);
 
                         Grid.SetColumn(_border, 0);
                         Grid.SetColumn(_canvas, 1);

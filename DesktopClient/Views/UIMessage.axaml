@@ -15,12 +15,14 @@
                   x:Name="PART_BORDER">
             <TextBlock Text="Message From client"
                        x:Name="MessageTextBlock"
-                       HorizontalAlignment="Left"/>
+                       HorizontalAlignment="Left"
+                       Margin="5"/>
           </Border>
 
           <Canvas Grid.Column="1"
                   Width="10"
                   Height="10"
+                  Background="Transparent"
                   VerticalAlignment="Bottom"
                   HorizontalAlignment="Left"
                   x:Name="PART_CANVAS"/>
