@@ -28,13 +28,13 @@
     <Setter Property="Margin" Value="5"/>
   </Style>
 
-  <Style Selector="TextBox.Chat /template/ Border#PART_BorderElement">
+  <Style Selector="TextBox.Chat > Border">
     <Setter Property="CornerRadius" Value="20"/>
     <Setter Property="Background" Value="LightCoral"/>
     <Setter Property="BorderBrush" Value="Transparent"/>
   </Style>
 
-  <Style Selector="TextBox.Chat /template/ DockPanel#PART_InnerDockPanel">
+  <Style Selector="TextBox.Chat > Border > DockPanel">
     <Setter Property="Margin" Value="10"/>
   </Style>
 

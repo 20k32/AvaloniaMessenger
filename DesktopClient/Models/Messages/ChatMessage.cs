@@ -32,7 +32,7 @@ namespace DesktopClient.Models.Messages
             else
             {
                 Alignment = HorizontalAlignment.Left;
-                Margin = new Thickness(5, 0, 0, 0);
+                Margin = new Thickness(5, 2, 0, 0);
             }
 
         }

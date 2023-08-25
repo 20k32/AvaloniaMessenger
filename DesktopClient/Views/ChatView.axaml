@@ -15,10 +15,11 @@
         <DataTemplate>
           <Grid ColumnDefinitions="*, *"
                 VerticalAlignment="Center">
-              <local:Message Grid.Column="{Binding BaseMessage.IsMessageYours}"
-                               HorizontalAlignment="{Binding Alignment}"
-                               Margin="{Binding Margin}"
-                               BackgroundColor="Gold"/>
+            <local:Message Grid.Column="{Binding BaseMessage.IsMessageYours}"
+                           HorizontalAlignment="{Binding Alignment}"
+                           Margin="{Binding Margin}"
+                           YourMessageBackgroundColor="Gold"
+                           FriendsMessageBackgroundColor="LightBlue"/>
           </Grid>
         </DataTemplate>
       </ItemsControl.ItemTemplate>

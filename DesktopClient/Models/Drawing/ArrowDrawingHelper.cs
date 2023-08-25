@@ -57,15 +57,17 @@ namespace DesktopClient.Models.Drawing
 
         public static CornerRadius RightRoundedRadius = new(10, 10, 0, 10);
         public static CornerRadius LeftRoundedRadius = new(10, 10, 10, 0);
-        public static Color MessageStrokeAndFillColor;
-        public static SolidColorBrush MessageColorBrush = new(MessageStrokeAndFillColor);
+        public static Color YourMessageStrokeAndFillColor;
+        public static Color FriendsMessageStrokeAndFillColor;
+        public static SolidColorBrush YourMessageColorBrush = new(YourMessageStrokeAndFillColor);
+        public static SolidColorBrush FriendsMessageColorBrush = new(FriendsMessageStrokeAndFillColor);
 
         public static Path DrawRightArrow() =>
             new Path()
             {
                 Data = _rightArrowGeometry,
-                Fill = MessageColorBrush,
-                Stroke = MessageColorBrush,
+                Fill = YourMessageColorBrush,
+                Stroke = YourMessageColorBrush,
             };
 
 
@@ -73,8 +75,8 @@ namespace DesktopClient.Models.Drawing
             new Path()
             {
                 Data = _leftArrowGeometry,
-                Fill = MessageColorBrush,
-                Stroke = MessageColorBrush,
+                Fill = FriendsMessageColorBrush,
+                Stroke = FriendsMessageColorBrush,
             };
     }
 }

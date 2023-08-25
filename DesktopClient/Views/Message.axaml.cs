@@ -19,10 +19,10 @@ namespace DesktopClient.Views
         private Border _border = null!;
 
         #region INotifyPropertyChanged
-        
+
         public new event PropertyChangedEventHandler? PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -41,58 +41,72 @@ namespace DesktopClient.Views
             switch (Grid.GetColumn(this))
             {
                 // the message arrow indicates left -- <(...)
+                // so the message is from your friend
                 case 0:
-                {
-                    var path = ArrowDrawingHelper.DrawLeftArrow();
+                    {
+                        var path = ArrowDrawingHelper.DrawLeftArrow();
 
-                    _border.CornerRadius = ArrowDrawingHelper.LeftRoundedRadius;
-                    _canvas.Children.Add(path);
+                        _border.Background = ArrowDrawingHelper.FriendsMessageColorBrush;
+                        _border.CornerRadius = ArrowDrawingHelper.LeftRoundedRadius;
+                        _canvas.Children.Add(path);
 
-                    Grid.SetColumn(_border, 1);
-                    Grid.SetColumn(_canvas, 0);
-                }
-                break;
+                        Grid.SetColumn(_border, 1);
+                        Grid.SetColumn(_canvas, 0);
+                    }
+                    break;
 
                 // the message arrow indicates right -- (...)>
+                // so the message is yours
                 case 1:
-                {
-                    var path = ArrowDrawingHelper.DrawRightArrow();
+                    {
+                        var path = ArrowDrawingHelper.DrawRightArrow();
 
-                    _border.CornerRadius = ArrowDrawingHelper.RightRoundedRadius;
-                    _canvas.Children.Add(path);
+                        _border.Background = ArrowDrawingHelper.YourMessageColorBrush;
+                        _border.CornerRadius = ArrowDrawingHelper.RightRoundedRadius;
+                        _canvas.Children.Add(path);
 
-                    Grid.SetColumn(_border, 0);
-                    Grid.SetColumn(_canvas, 1);
-                }
-                break;
+                        Grid.SetColumn(_border, 0);
+                        Grid.SetColumn(_canvas, 1);
+                    }
+                    break;
             }
         }
 
-        #region MessageBackground
+        #region YourMessageBackground
 
-        public static readonly DirectProperty<Message, Color> BackgroundColorProperty =
+        public static readonly DirectProperty<Message, Color> YourMessageBackgroundColorProperty =
             AvaloniaProperty.RegisterDirect<Message, Color>(
-                nameof(BackgroundColor),
-                getter => getter.BackgroundColor,
-                (setter, value) => setter.BackgroundColor = value);
+                nameof(YourMessageBackgroundColor),
+                getter => getter.YourMessageBackgroundColor,
+                (setter, value) => setter.YourMessageBackgroundColor = value);
 
-        public Color BackgroundColor
+        public Color YourMessageBackgroundColor
         {
-            get => ArrowDrawingHelper.MessageStrokeAndFillColor;
+            get => ArrowDrawingHelper.YourMessageStrokeAndFillColor;
             set
             {
-                SetAndRaise(BackgroundColorProperty, ref ArrowDrawingHelper.MessageStrokeAndFillColor, value);
-                BorderBackgroundColor = new SolidColorBrush(BackgroundColor);
+                SetAndRaise(YourMessageBackgroundColorProperty, ref ArrowDrawingHelper.YourMessageStrokeAndFillColor, value);
+                ArrowDrawingHelper.YourMessageColorBrush = new SolidColorBrush(YourMessageBackgroundColor);
             }
         }
 
-        public SolidColorBrush BorderBackgroundColor
+        #endregion
+
+        #region FriendsMessageBackground
+
+        public static readonly DirectProperty<Message, Color> FriendsMessageBackgroundColorProperty =
+            AvaloniaProperty.RegisterDirect<Message, Color>(
+                nameof(FriendsMessageBackgroundColor),
+                getter => getter.FriendsMessageBackgroundColor,
+                (setter, value) => setter.FriendsMessageBackgroundColor = value);
+
+        public Color FriendsMessageBackgroundColor
         {
-            get => ArrowDrawingHelper.MessageColorBrush;
+            get => ArrowDrawingHelper.FriendsMessageStrokeAndFillColor;
             set
             {
-                ArrowDrawingHelper.MessageColorBrush = value;
-                OnPropertyChanged();
+                SetAndRaise(YourMessageBackgroundColorProperty, ref ArrowDrawingHelper.FriendsMessageStrokeAndFillColor, value);
+                ArrowDrawingHelper.FriendsMessageColorBrush = new SolidColorBrush(FriendsMessageBackgroundColor);
             }
         }
 

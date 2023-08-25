@@ -8,7 +8,7 @@ namespace DesktopClient.Views
     {
         internal ObservableCollection<ChatMessage> Messages => new()
         {
-            new("Hi", true),
+            new("Hi", false),
             new("hello", false),
             new("how are you?", true),
             new("i am fine", false)
