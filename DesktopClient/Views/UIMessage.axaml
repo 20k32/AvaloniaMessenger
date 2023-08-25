@@ -11,7 +11,7 @@
       <ControlTemplate>
         <Grid ColumnDefinitions="Auto, Auto">
           <Border Grid.Column="0"
-                  Background="Yellow"
+                  Background="{Binding BorderBackgroundColor}"
                   x:Name="PART_BORDER">
             <TextBlock Text="Message From client"
                        x:Name="MessageTextBlock"

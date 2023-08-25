@@ -55,26 +55,26 @@ namespace DesktopClient.Models.Drawing
                         }
             };
 
-        public static CornerRadius RightRoundedRadius = new(4, 4, 0, 4);
-        public static CornerRadius LeftRoundedRadius = new(4, 4, 4, 0);
+        public static CornerRadius RightRoundedRadius = new(10, 10, 0, 10);
+        public static CornerRadius LeftRoundedRadius = new(10, 10, 10, 0);
+        public static Color MessageStrokeAndFillColor;
+        public static SolidColorBrush MessageColorBrush = new(MessageStrokeAndFillColor);
 
-        public static Path DrawRightArrow(IBrush fill, IBrush stroke, double strokeThickness) =>
+        public static Path DrawRightArrow() =>
             new Path()
             {
                 Data = _rightArrowGeometry,
-                Fill = fill,
-                Stroke = stroke,
-                StrokeThickness = strokeThickness,
+                Fill = MessageColorBrush,
+                Stroke = MessageColorBrush,
             };
 
 
-        public static Path DrawLeftArrow(IBrush fill, IBrush stroke, double strokeThickness) =>
+        public static Path DrawLeftArrow() =>
             new Path()
             {
                 Data = _leftArrowGeometry,
-                Fill = fill,
-                Stroke = stroke,
-                StrokeThickness = strokeThickness,
+                Fill = MessageColorBrush,
+                Stroke = MessageColorBrush,
             };
     }
 }
