@@ -37,5 +37,6 @@
     <Setter Property="CornerRadius" Value="10"/>
     <Setter Property="BorderThickness" Value="3"/>
     <Setter Property="BorderBrush" Value="Black"/>
+    <Setter Property="Margin" Value="10"/>
   </Style>
 </Styles>
