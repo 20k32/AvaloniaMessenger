@@ -13,5 +13,14 @@ namespace DesktopClient.Views
         {
             UserNameTextBlock.Text = userName;
         }
+
+        // this must be dependency property
+        private int _unreadMessages = 1;
+
+        public int UnreadMessages
+        {
+            get => _unreadMessages;
+            set => _unreadMessages = value; 
+        }
     }
 }
