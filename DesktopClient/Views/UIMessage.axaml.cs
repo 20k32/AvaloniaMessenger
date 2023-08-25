@@ -20,7 +20,7 @@ namespace DesktopClient.Views
 
         #region INotifyPropertyChanged
         
-        public new event PropertyChangedEventHandler PropertyChanged = null!;
+        public new event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
@@ -83,14 +83,17 @@ namespace DesktopClient.Views
             {
                 SetAndRaise(BackgroundColorProperty, ref ArrowDrawingHelper.MessageStrokeAndFillColor, value);
                 BorderBackgroundColor = new SolidColorBrush(BackgroundColor);
-                OnPropertyChanged(nameof(BorderBackgroundColor));
             }
         }
 
         public SolidColorBrush BorderBackgroundColor
         {
             get => ArrowDrawingHelper.MessageColorBrush;
-            set => ArrowDrawingHelper.MessageColorBrush = value;
+            set
+            {
+                ArrowDrawingHelper.MessageColorBrush = value;
+                OnPropertyChanged();
+            }
         }
 
         #endregion

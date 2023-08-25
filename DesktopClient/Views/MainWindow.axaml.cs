@@ -3,8 +3,12 @@ using DesktopClient.ViewModels;
 
 namespace DesktopClient.Views;
 
-internal sealed partial class MainWindow : Window
+public sealed partial class MainWindow : Window
 {
+    // for designer preview
+    public MainWindow()
+    { }
+
     public MainWindow(MainWindowViewModel viewModel)
     {
         InitializeComponent();

@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="DesktopClient.Views.UIUser">
+  <Border CornerRadius="10"
+          Background="Beige"
+          BorderThickness="10"
+          BorderBrush="Black">
+    <StackPanel Orientation="Horizontal"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Center"
+              Height="100">
+      <PathIcon Data="{StaticResource AnotherUserIcon}"
+                Width="90"
+                Height="90"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+      <Panel Width="7"
+             Background="Black"
+             Margin="0, 0, 10, 0"/>
+      <TextBlock Text="User_1"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Margin="0, 0, 10, 0"/>
+      <Panel Grid.Column="1"
+             Background="AliceBlue"/>
+    </StackPanel>
+  </Border>
+
+</UserControl>

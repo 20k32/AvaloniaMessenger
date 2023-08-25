@@ -27,6 +27,5 @@
                   ResizeBehavior="PreviousAndNext"/>
     
     <views:ChatView Grid.Column="2"/>
-    
   </Grid>
 </Window>
