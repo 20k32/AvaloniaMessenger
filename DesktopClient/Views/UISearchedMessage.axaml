@@ -6,14 +6,18 @@
              x:Class="DesktopClient.Views.UISearchedMessage">
   <Border Classes="UIBorder"
           Background="Bisque"
-          x:Name="UI_Border">
-    <StackPanel Classes="UIStackPanel">
+          x:Name="Ui_Border">
+    <Grid ColumnDefinitions="Auto, Auto, Auto">
       <PathIcon Data="{StaticResource LetterIcon}"
-                Classes="UIPathIcon"/>
-      <Panel Classes="UIPanel"
-             Width="{Binding #UI_Border.BorderThickness.Left}"/>
+                Classes="UIPathIcon"
+                Grid.Column="0"
+                Margin="2, 0, 0, 0"/>
+      <Panel Width="{Binding #Ui_Border.BorderThickness.Left}"
+             Classes="UIPanel"
+             Grid.Column="1"/>
       <TextBlock x:Name="LetterTextBlock"
-                 Classes="UITextBlock"/>
-    </StackPanel>
+                 Classes="UITextBlock"
+                 Grid.Column="2"/>
+    </Grid>
   </Border>
 </UserControl>

@@ -7,14 +7,21 @@
   <Border Classes="UIBorder"
           Background="Beige"
           x:Name="Ui_Border">
-    <StackPanel Classes="UIStackPanel">
+    <Grid ColumnDefinitions="Auto, Auto, Auto, *">
       <PathIcon Data="{StaticResource AnotherUserIcon}"
-                Classes="UIPathIcon"/>
+                Classes="UIPathIcon"
+                Grid.Column="0"
+                Margin="0, 2, 0, 2"/>
       <Panel Width="{Binding #Ui_Border.BorderThickness.Left}"
-             Classes="UIPanel"/>
+             Classes="UIPanel"
+             Grid.Column="1"/>
       <TextBlock x:Name="UserNameTextBlock"
-                 Classes="UITextBlock"/>
-    </StackPanel>
+                 Classes="UITextBlock"
+                 Grid.Column="2"/>
+      <TextBlock Grid.Column="3" Text="99 Нов."
+                 Classes="UITextBlock"
+                 HorizontalAlignment="Right"/>
+    </Grid>
   </Border>
 
 </UserControl>
