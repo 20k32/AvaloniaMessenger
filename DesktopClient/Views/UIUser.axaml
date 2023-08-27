@@ -6,23 +6,24 @@
              mc:Ignorable="d"
              x:Class="DesktopClient.Views.UIUser"
              x:DataType="views:UIUser"
-             x:Name="UIUserControl">
+             x:Name="UiUserControl">
   <Border Classes="UIBorder"
           Background="Beige"
-          x:Name="Ui_Border">
+          x:Name="UiBorder">
     <Grid ColumnDefinitions="Auto, Auto, Auto, *">
       <PathIcon Data="{StaticResource AnotherUserIcon}"
                 Classes="UIPathIcon"
                 Grid.Column="0"
                 Margin="0, 2, 0, 2"/>
-      <Panel Width="{Binding #Ui_Border.BorderThickness.Left}"
+      <Panel Width="{Binding #UiBorder.BorderThickness.Left}"
              Classes="UIPanel"
              Grid.Column="1"/>
       <TextBlock x:Name="UserNameTextBlock"
                  Classes="UITextBlock"
                  Grid.Column="2"/>
       <TextBlock Grid.Column="3" 
-                 Text="{Binding #UIUserControl.UnreadMessages, Converter={StaticResource UnreadCountConverter}}"
+                 Text="{Binding #UiUserControl.UnreadMessages, 
+                  Converter={StaticResource UnreadCountConverter}}"
                  Classes="UITextBlock"
                  HorizontalAlignment="Right"/>
     </Grid>

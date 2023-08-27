@@ -12,7 +12,9 @@ namespace DesktopClient.Models.Messages
 {
     internal sealed class ChatMessage
     {
-        public MessageBase BaseMessage { get; init; } 
+        private static readonly Thickness _yourMessageThickness = new(0, 5, 2, 0);
+        private static readonly Thickness _friedMessageThickness = new(5, 2, 0, 0);
+        public MessageBase BaseMessage { get; } 
         public HorizontalAlignment Alignment { get; init; }
         public Thickness Margin { get; init; }
 
@@ -27,12 +29,12 @@ namespace DesktopClient.Models.Messages
             if (isMessageYours)
             {
                 Alignment = HorizontalAlignment.Right;
-                Margin = new Thickness(0, 5, 2, 0);
+                Margin = _yourMessageThickness;
             }
             else
             {
                 Alignment = HorizontalAlignment.Left;
-                Margin = new Thickness(5, 2, 0, 0);
+                Margin = _friedMessageThickness;
             }
 
         }

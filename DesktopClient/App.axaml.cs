@@ -2,7 +2,6 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using DesktopClient.ViewModels;
 using DesktopClient.Views;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +18,7 @@ public sealed partial class App : Application
     {
         var provider = new ServiceCollection()
             .ConfigureServices();
-        
+
         // Line below is needed to remove Avalonia data validation.
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);

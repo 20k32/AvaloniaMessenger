@@ -7,7 +7,8 @@
              xmlns:local="using:DesktopClient.Views"
              xmlns:model="using:DesktopClient.Models.ListBox"
              x:Class="DesktopClient.Views.AvaliableUsersView"
-             x:Name="AvaliableUsersControl">
+             x:Name="AvaliableUsersControl"
+             x:DataType="views:AvaliableUsersView">
   <Grid RowDefinitions="Auto, *"
           Background="Red"
           x:Name="InformationGrid">
@@ -21,7 +22,8 @@
                Grid.Column="1"/>
     </Grid>
     <ItemsControl Grid.Row="1" 
-                  ItemsSource="{Binding #AvaliableUsersControl.Items}"
+                  x:CompileBindings="False"
+                  ItemsSource="{Binding #AvaliableUsersControl.FriendsList}"
                   Background="AliceBlue">
       <ItemsControl.ItemTemplate>
         <DataTemplate x:DataType="model:ListBoxItemBase">

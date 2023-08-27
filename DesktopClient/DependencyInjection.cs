@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DesktopClient.Models.Auth;
 
 namespace DesktopClient
 {
@@ -16,7 +17,7 @@ namespace DesktopClient
         {
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainWindowViewModel>();
-
+            services.AddSingleton(new User("Yegorchik", "@yegorchik", "12345"));
             return services.BuildServiceProvider();
         }
     }

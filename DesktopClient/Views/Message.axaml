@@ -4,33 +4,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="using:DesktopClient.Views"
         x:CompileBindings="False">
-  <Design.PreviewWith>
-    <controls:Message />
-  </Design.PreviewWith>
+    <Design.PreviewWith>
+        <controls:Message />
+    </Design.PreviewWith>
 
-  <Style Selector="controls|Message">
-    <Setter Property="Template">
-      <ControlTemplate>
-        <Grid ColumnDefinitions="Auto, Auto">
-          <Border Grid.Column="0"
-                  x:Name="PART_BORDER">
-            <TextBlock Text="Message From client"
-                       x:Name="MessageTextBlock"
-                       HorizontalAlignment="Left"
-                       Margin="8"
-                       FontSize="18"
-                       FontWeight="Medium"/>
-          </Border>
+    <Style Selector="controls|Message">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto, Auto">
+                    <Border Grid.Column="0"
+                            x:Name="PART_BORDER">
+                        <TextBlock Text="{TemplateBinding Text}"
+                                   HorizontalAlignment="Left"
+                                   Margin="8"
+                                   FontSize="18"
+                                   FontWeight="Medium" />
+                    </Border>
 
-          <Canvas Grid.Column="1"
-                  Width="10"
-                  Height="10"
-                  Background="Transparent"
-                  VerticalAlignment="Bottom"
-                  HorizontalAlignment="Left"
-                  x:Name="PART_CANVAS"/>
-          </Grid>
-      </ControlTemplate>
-    </Setter>
-  </Style>
+                    <Canvas Grid.Column="1"
+                            Width="10"
+                            Height="10"
+                            Background="Transparent"
+                            VerticalAlignment="Bottom"
+                            HorizontalAlignment="Left"
+                            x:Name="PART_CANVAS" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
 </Styles>

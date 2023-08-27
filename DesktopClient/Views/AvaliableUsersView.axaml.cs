@@ -1,20 +1,30 @@
 using Avalonia.Controls;
 using DesktopClient.Models.ListBox;
 using System.Collections.ObjectModel;
+using Avalonia;
 
 namespace DesktopClient.Views
 {
     public sealed partial class AvaliableUsersView : UserControl
     {
-        internal ObservableCollection<ListBoxItemBase> Items => new()
-            {
-               new ListBoxItemCategory("Пользователи в подписках:"),
-               new ListBoxItemUser("Друг 1"),
-               new ListBoxItemCategory("Пользователи глобально:"),
-               new ListBoxItemUser("Пользователь 1"),
-               new ListBoxItemCategory("Найденные сообщения"),
-               new ListBoxItemMessage("Сообщение 1")
-            };
+        #region Friends
+
+        public static readonly DirectProperty<AvaliableUsersView, ObservableCollection<ListBoxItemBase>>
+            FriendsListProperty =
+                AvaloniaProperty.RegisterDirect<AvaliableUsersView, ObservableCollection<ListBoxItemBase>>(
+                    nameof(FriendsList),
+                    getter => getter.FriendsList,
+                    (setter, value) => setter.FriendsList = value);
+
+        private ObservableCollection<ListBoxItemBase> _friends = null!;
+
+        public ObservableCollection<ListBoxItemBase> FriendsList
+        {
+            get => _friends;
+            set => SetAndRaise(FriendsListProperty, ref _friends, value);
+        }
+
+        #endregion
 
         public AvaliableUsersView()
         {

@@ -19,7 +19,9 @@
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
     
-    <views:AvaliableUsersView Grid.Column="0"/>
+    <views:AvaliableUsersView Grid.Column="0"
+                              x:CompileBindings="False"
+                              FriendsList="{Binding Items}"/>
     
     <GridSplitter Grid.Column="1"
                   Background="Black"

@@ -18,6 +18,7 @@
             <local:Message Grid.Column="{Binding BaseMessage.IsMessageYours}"
                            HorizontalAlignment="{Binding Alignment}"
                            Margin="{Binding Margin}"
+                           Text="{Binding BaseMessage.MessageText}"
                            YourMessageBackgroundColor="Gold"
                            FriendsMessageBackgroundColor="LightBlue"/>
           </Grid>
