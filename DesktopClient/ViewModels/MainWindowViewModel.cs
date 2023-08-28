@@ -1,19 +1,60 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using DesktopClient.Databases;
+using DesktopClient.Databases.DTOs;
+using DesktopClient.Models.Auth;
+using DesktopClient.ViewModels;
 using DesktopClient.Models.ListBox;
 
 namespace DesktopClient.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public ObservableCollection<ListBoxItemBase> Items => new()
+    #region FriendsList
+
+    private ObservableCollection<ListBoxItemBase> _friendsList = new();
+
+    public ObservableCollection<ListBoxItemBase> FriendsList
     {
-        new ListBoxItemCategory("asfasdf:"),
-        new ListBoxItemUser("Друг 1"),
-        new ListBoxItemCategory("Пользователи глобально:"),
-        new ListBoxItemUser("Пользователь 1"),
-        new ListBoxItemCategory("Найденные сообщения"),
-        new ListBoxItemMessage("Сообщение 1")
-    };
+        get => _friendsList;
+        set => SetProperty(ref _friendsList, value);
+    }
+
+    #endregion
     
-    public string Greeting => "Welcome to Avalonia!";
+    #region SelectedFriend
+
+    private ListBoxItemBase _selectedFriend = null!;
+
+    public ListBoxItemBase SelectedItem
+    {
+        get => _selectedFriend;
+        set
+        {
+            if (value.IsCategory)
+            {
+                return;
+            }
+            
+            SetProperty(ref _selectedFriend, value);
+        }
+    }
+    
+    #endregion
+    
+    private readonly IDatabase _database;
+    private readonly UsersDbUserEntry _currentUser;
+    public MainWindowViewModel(IDatabase database, UsersDbUserEntry currentUser)
+    {
+        _database = database;
+        _currentUser = currentUser;
+        
+        
+        FriendsList.Add(new ListBoxItemCategory("Пользователи в подписках:"));
+
+        foreach (var item in _currentUser.Friends)
+        {
+            FriendsList.Add(new ListBoxItemUser(item.UserName));
+        }
+    }
 }

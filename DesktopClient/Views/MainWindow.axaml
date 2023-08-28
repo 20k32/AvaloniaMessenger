@@ -18,16 +18,16 @@
       <ColumnDefinition Width="4"/>
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
-    
+
     <views:AvaliableUsersView Grid.Column="0"
-                              x:CompileBindings="False"
-                              FriendsList="{Binding Items}"/>
-    
+                              FriendsList="{Binding FriendsList}"
+                              SelectedFriend="{Binding SelectedItem, Mode=TwoWay}"/>
+
     <GridSplitter Grid.Column="1"
                   Background="Black"
                   ResizeDirection="Columns"
                   ResizeBehavior="PreviousAndNext"/>
-    
+
     <views:ChatView Grid.Column="2"/>
   </Grid>
 </Window>

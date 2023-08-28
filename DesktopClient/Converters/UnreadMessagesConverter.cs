@@ -23,7 +23,7 @@ namespace DesktopClient.Converters
             {
                 return $"{val} Нов.";
             }
-
+                
             return string.Empty;
         }
 

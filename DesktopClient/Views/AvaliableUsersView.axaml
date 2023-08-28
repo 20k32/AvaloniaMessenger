@@ -2,38 +2,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:views="using:DesktopClient.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:local="using:DesktopClient.Views"
              xmlns:model="using:DesktopClient.Models.ListBox"
              x:Class="DesktopClient.Views.AvaliableUsersView"
              x:Name="AvaliableUsersControl"
-             x:DataType="views:AvaliableUsersView">
-  <Grid RowDefinitions="Auto, *"
+             x:DataType="local:AvaliableUsersView">
+    <Grid RowDefinitions="Auto, *"
           Background="Red"
           x:Name="InformationGrid">
-    <Grid Grid.Row="0"
-          Classes="AvaliableUsers"
-          ColumnDefinitions="Auto, *">
-      <Button Content="Me"
+        <Grid Grid.Row="0"
               Classes="AvaliableUsers"
-              Grid.Column="0"/>
-      <TextBox Classes="AvaliableUsers"
-               Grid.Column="1"/>
+              ColumnDefinitions="Auto, *">
+            <Button Content="Me"
+                    Classes="AvaliableUsers"
+                    Grid.Column="0" />
+            <TextBox Classes="AvaliableUsers"
+                     Grid.Column="1" />
+        </Grid>
+        <ListBox Grid.Row="1"
+                      x:CompileBindings="False"
+                      ItemsSource="{Binding #AvaliableUsersControl.FriendsList}"
+                      Background="AliceBlue"
+                      Classes="AvaliableUsers"
+                      SelectedItem="{Binding #AvaliableUsersControl.SelectedFriend}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="model:ListBoxItemBase">
+                    <ListBoxItem Classes.AvaliableUsers_Categories="{Binding IsCategory}"
+                                 Classes.AvaliableUsers_Users="{Binding IsUser}"
+                                 Classes.AvaliableUsers_Messages="{Binding IsMessage}"
+                                 Content="{Binding Description}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
-    <ItemsControl Grid.Row="1" 
-                  x:CompileBindings="False"
-                  ItemsSource="{Binding #AvaliableUsersControl.FriendsList}"
-                  Background="AliceBlue">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate x:DataType="model:ListBoxItemBase">
-         <ListBoxItem Classes.AvaliableUsers_Categories="{Binding IsCategory}"
-                      Classes.AvaliableUsers_Users="{Binding IsUser}"
-                      Classes.AvaliableUsers_Messages="{Binding IsMessage}">
-            <ContentControl Content="{Binding Description}"/>
-           </ListBoxItem>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
-  </Grid>
 </UserControl>

@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using DesktopClient.Models.ListBox;
 using System.Collections.ObjectModel;
 using Avalonia;
+using Avalonia.Styling;
 
 namespace DesktopClient.Views
 {
@@ -26,6 +27,24 @@ namespace DesktopClient.Views
 
         #endregion
 
+        #region SelectedFriend
+
+        private ListBoxItemBase _selectedFriend = null!;
+
+        public static readonly DirectProperty<AvaliableUsersView, ListBoxItemBase> SelectedFriendProperty =
+            AvaloniaProperty.RegisterDirect<AvaliableUsersView, ListBoxItemBase>(
+                nameof(SelectedFriend),
+                getter => getter.SelectedFriend,
+                (setter, value) => setter.SelectedFriend = value);
+
+        public ListBoxItemBase SelectedFriend
+        {
+            get => _selectedFriend;
+            set => SetAndRaise(SelectedFriendProperty, ref _selectedFriend, value);
+        }
+
+        #endregion
+        
         public AvaliableUsersView()
         {
             InitializeComponent();

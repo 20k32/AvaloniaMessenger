@@ -1,88 +1,108 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  
+
     <Design.PreviewWith>
-      <Grid RowDefinitions="Auto, *"
-            Background="Red"
-            x:Name="InformationGrid"
-            Width="300"
-            Height="600">
-        <Grid Grid.Row="0"
-              Classes="AvaliableUsers"
-              ColumnDefinitions="Auto, *">
-          <Button Content="Me"
+        <Grid RowDefinitions="Auto, *"
+              Background="Red"
+              x:Name="InformationGrid"
+              Width="300"
+              Height="600">
+            <Grid Grid.Row="0"
                   Classes="AvaliableUsers"
-                  Grid.Column="0"/>
-          <TextBox Classes="AvaliableUsers"
-                   Grid.Column="1"/>
+                  ColumnDefinitions="Auto, *">
+                <Button Content="Me"
+                        Classes="AvaliableUsers"
+                        Grid.Column="0" />
+                <TextBox Classes="AvaliableUsers"
+                         Grid.Column="1" />
+            </Grid>
+            <ListBox Grid.Row="1"
+                     Classes="AvaliableUsers">
+                <ListBoxItem Content="Пользователи в подписках:"
+                             Classes="AvaliableUsers_Categories" />
+                <ListBoxItem Content="Пользователь 1"
+                             Classes="AvaliableUsers_Users" />
+                <ListBoxItem Content="Пользователи глобально:"
+                             Classes="AvaliableUsers_Categories" />
+                <ListBoxItem Content="Пользователь 2"
+                             Classes="AvaliableUsers_Users" />
+                <ListBoxItem Content="Найденные сообщения:"
+                             Classes="AvaliableUsers_Categories" />
+                <ListBoxItem Content="Сообщение 1"
+                             Classes="AvaliableUsers_Messages" />
+            </ListBox>
         </Grid>
-        <ListBox Grid.Row="1">
-          <ListBoxItem Content="Пользователи в подписках:"
-                       Classes="AvaliableUsers_Categories"/>
-          <ListBoxItem Content="Пользователь 1"
-                       Classes="AvaliableUsers_Users"/>
-          <ListBoxItem Content="Пользователи глобально:"
-                     Classes="AvaliableUsers_Categories"/>
-          <ListBoxItem Content="Пользователь 2"
-                       Classes="AvaliableUsers_Users"/>
-          <ListBoxItem Content="Найденные сообщения:"
-                     Classes="AvaliableUsers_Categories"/>
-          <ListBoxItem Content="Сообщение 1"
-                       Classes="AvaliableUsers_Messages"/>
-        </ListBox>
-      </Grid>
     </Design.PreviewWith>
-  
-<!-- TextBox for searching users -->
-  <Style Selector="TextBox.AvaliableUsers">
-    <Setter Property="Watermark" Value="Search"/>
-    <Setter Property="Margin" Value="5"/>
-  </Style>
-  
-  <Style Selector="TextBox.AvaliableUsers > Border">
-    <Setter Property="CornerRadius" Value="20"/>
-    <Setter Property="Background" Value="LightCoral"/>
-    <Setter Property="BorderBrush" Value="Transparent"/>
-  </Style>
 
-  <Style Selector="TextBox.AvaliableUsers > Border > DockPanel">
-    <Setter Property="Margin" Value="10"/>
-    <Setter Property="Theme"/>
-  </Style>
-  
-  <!-- Grid for holding controls for searching users-->
-  <Style Selector="Grid.AvaliableUsers">
-    <Setter Property="Margin" Value="5"/>
-    <Setter Property="Background" Value="BlanchedAlmond"/>
-  </Style>
-  
-  <!-- Button for extra command -->
-  <Style Selector="Button.AvaliableUsers">
-    <Setter Property="Margin" Value="5"/>
-  </Style>
-  
-  <!-- ListBoxItem for displaying categories -->
-  <Style Selector="ListBoxItem.AvaliableUsers_Categories:selected > ContentPresenter">
-    <Setter Property="Background" Value="Green"/>
-  </Style>
+    <!-- TextBox for searching users -->
+    <Style Selector="TextBox.AvaliableUsers">
+        <Setter Property="Watermark" Value="Search" />
+        <Setter Property="Margin" Value="5" />
+    </Style>
 
-  <Style Selector="ListBoxItem.AvaliableUsers_Categories">
-    <Setter Property="Background" Value="Green"/>
-    <Setter Property="Padding" Value="10"/>
-  </Style>
-  
-  <Style Selector="ListBoxItem.AvaliableUsers_Categories:pointerover > ContentPresenter">
-    <Setter Property="Background" Value="Green"/>
-  </Style>
-  
-  <!-- ListBoxItem for displaying Users -->
-  <Style Selector="ListBoxItem.AvaliableUsers_Users">
-    <Setter Property="Background" Value="LightCoral"/>
-  </Style>
-  
-  <!-- ListBoxItem for displaying Messages-->
-  <Style Selector="ListBoxItem.AvaliableUsers_Messages">
-    <Setter Property="Background" Value="LawnGreen"/>
-  </Style>
+    <Style Selector="TextBox.AvaliableUsers > Border">
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="Background" Value="LightCoral" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style Selector="TextBox.AvaliableUsers > Border > DockPanel">
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Theme" />
+    </Style>
+
+    <!-- Grid for holding controls for searching users-->
+    <Style Selector="Grid.AvaliableUsers">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Background" Value="BlanchedAlmond" />
+    </Style>
+
+    <!-- Button for extra command -->
+    <Style Selector="Button.AvaliableUsers">
+        <Setter Property="Margin" Value="5" />
+    </Style>
+
+    <!--ListBox for holing listboxitems below-->
+    <Style Selector="ListBox.AvaliableUsers">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    
+    <!-- ListBoxItem for displaying categories -->
+    <Style Selector="ListBoxItem.AvaliableUsers_Categories:selected > ContentPresenter">
+        <Setter Property="Background" Value="Green" />
+    </Style>
+
+    <Style Selector="ListBoxItem.AvaliableUsers_Categories">
+        <Setter Property="Background" Value="Green" />
+        <Setter Property="Padding" Value="10" />
+    </Style>
+
+    <Style Selector="ListBoxItem.AvaliableUsers_Categories:pointerover > ContentPresenter">
+        <Setter Property="Background" Value="Green" />
+    </Style>
+
+    <!-- ListBoxItem for displaying Users -->
+    <Style Selector="ListBoxItem.AvaliableUsers_Users">
+        <Setter Property="Background" Value="LightCoral" />
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+    
+    <Style Selector="ListBox ListBoxItem">
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+    
+    <Style Selector="ListBoxItem.AvaliableUsers_Users:pointerover > ContentPresenter">
+        <Setter Property="Background" Value="LightGreen" />
+    </Style>
+
+    <!-- ListBoxItem for displaying Messages-->
+    <Style Selector="ListBoxItem.AvaliableUsers_Messages">
+        <Setter Property="Background" Value="LawnGreen" />
+    </Style>
 
 </Styles>

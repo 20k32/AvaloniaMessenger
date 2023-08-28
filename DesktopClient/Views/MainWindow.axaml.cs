@@ -8,7 +8,7 @@ public sealed partial class MainWindow : Window
     // for designer preview
     public MainWindow()
     { }
-
+    
     public MainWindow(MainWindowViewModel viewModel)
     {
         InitializeComponent();

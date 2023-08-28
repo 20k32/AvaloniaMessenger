@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DesktopClient.Databases;
+using DesktopClient.Databases.DTOs;
+using DesktopClient.Models.Auth;
+using DesktopClient.Views;
 using DesktopClient.Models.Auth;
 
 namespace DesktopClient
@@ -17,7 +21,18 @@ namespace DesktopClient
         {
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton(new User("Yegorchik", "@yegorchik", "12345"));
+            
+            var user = new UsersDbUserEntry("@admin", "11111", "Admin");
+            services.AddRamDb();
+            var _usersDb = services.BuildServiceProvider().GetRequiredService<IDatabase>();
+            
+            user.Friends.Add(_usersDb.GetUserByUserName("@yegor")!);
+            user.Friends.Add(_usersDb.GetUserByUserName("@bob")!);
+            user.Friends.Add(_usersDb.GetUserByUserName("@alex")!);
+
+            _usersDb.AddUser(user);
+            
+            services.AddSingleton(user);
             return services.BuildServiceProvider();
         }
     }
