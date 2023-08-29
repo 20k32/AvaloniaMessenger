@@ -29,6 +29,9 @@
                   ResizeBehavior="PreviousAndNext"/>
 
     <views:ChatView Grid.Column="2"
-                    Messages="{Binding CurrentChatHistory}"/>
+                    Messages="{Binding CurrentChatHistory}"
+                    MessageText="{Binding MessageData, Mode=TwoWay}"
+                    SendMessageCommandParameter="{Binding MessageData}"
+                    SendMessageCommand="{Binding SendMessageCommand}"/>
   </Grid>
 </Window>

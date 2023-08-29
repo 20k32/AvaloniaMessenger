@@ -31,10 +31,13 @@
       <Button Content="Photo"
               Classes="Chat"
               Grid.Column="0"/>
-      <TextBox Text="some message"
+      <TextBox Text="{Binding #ChatViewControl.MessageText}"
                Classes="Chat"
-               Grid.Column="1"/>
+               Grid.Column="1"
+               x:Name="FOCUSABLE_ELEMENT"/>
       <Button Content="Send"
+              Command="{Binding #ChatViewControl.SendMessageCommand}"
+              CommandParameter="{Binding #ChatViewControl.SendMessageCommandParameter}"
               Classes="Chat"
               Grid.Column="2"/>
     </Grid>

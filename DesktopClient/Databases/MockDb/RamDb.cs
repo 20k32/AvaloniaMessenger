@@ -58,21 +58,24 @@ public class RamDb : IDatabase
             .GetEntryById(user!.UserName)!
             .Messages;
 
-        ref var currentChatMesages = 
-            ref CollectionsMarshal.GetValueRefOrAddDefault(usersMessageHistory, message!.ChatName, out var exists);
+        lock (usersMessageHistory)
+        {
+            ref var currentChatMesages = 
+                ref CollectionsMarshal.GetValueRefOrAddDefault(usersMessageHistory, message!.ChatName, out var exists);
 
-        if (exists)
-        {
-            currentChatMesages!.Add(message);
-        }
-        else
-        {
-            currentChatMesages = new List<MessagesDbMessageEntry>()
+            if (exists)
             {
-                message
-            };
+                currentChatMesages!.Add(message);
+            }
+            else
+            {
+                currentChatMesages = new List<MessagesDbMessageEntry>()
+                {
+                    message
+                };
+            }
         }
-
+        
         return message.Id;
     }
 }

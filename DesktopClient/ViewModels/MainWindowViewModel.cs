@@ -1,16 +1,38 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Avalonia.Controls;
+using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Databases;
 using DesktopClient.Databases.DTOs;
 using DesktopClient.Models.Auth;
 using DesktopClient.ViewModels;
 using DesktopClient.Models.ListBox;
 using DesktopClient.Models.Messages;
+using DesktopClient.Views;
+using Microsoft.VisualBasic;
 
 namespace DesktopClient.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public sealed partial class MainWindowViewModel : ViewModelBase
 {
+    private string? _currentChatName = null!;
+    private readonly IDatabase _database;
+    private readonly UsersDbUserEntry _currentUser;
+    
+    public MainWindowViewModel(IDatabase database, UsersDbUserEntry currentUser)
+    {
+        _database = database;
+        _currentUser = currentUser;
+        
+        
+        FriendsList.Add(new ListBoxItemCategory("Пользователи в подписках:"));
+
+        foreach (var item in _currentUser.Friends)
+        {
+            FriendsList.Add(new ListBoxItemUser($"{item.FullName} ({item.UserName})", item.UserName));
+        }
+    }
+    
     #region FriendsList
 
     private ObservableCollection<ListBoxItemBase> _friendsList = new();
@@ -24,7 +46,7 @@ public class MainWindowViewModel : ViewModelBase
     #endregion
     
     #region SelectedFriend
-
+    
     private ListBoxItemBase _selectedFriend = null!;
 
     public ListBoxItemBase SelectedItem
@@ -39,21 +61,28 @@ public class MainWindowViewModel : ViewModelBase
             }
             
             SetProperty(ref _selectedFriend, value);
+            LoadHistoryFor(_selectedFriend.InnerData);
+            _currentChatName = _selectedFriend.InnerData;
+            SendMessageCommand.NotifyCanExecuteChanged();
+            ChatView.SetFocusToFocusableElement();
+        }
+    }
+
+
+    private void LoadHistoryFor(string chatName)
+    {
+        var currentUserMessageHistory = _database.GetChatForUser(chatName, _currentUser.UserName);
             
-            var currentUserMessageHistory = _database.GetChatForUser(_selectedFriend.InnerData, _currentUser.UserName);
+        CurrentChatHistory.Clear();
             
-            CurrentChatHistory.Clear();
-            
-            if (currentUserMessageHistory != null)
+        if (currentUserMessageHistory != null)
+        {
+            foreach (var item in currentUserMessageHistory)
             {
-                foreach (var item in currentUserMessageHistory)
-                {
-                    CurrentChatHistory.Add(new ChatMessage(item!.Data, item!.IsYours));
-                }
+                CurrentChatHistory.Add(new ChatMessage(item!.Data, item!.IsYours));
             }
         }
     }
-    
     #endregion
 
     #region CurrentChatHistory
@@ -66,25 +95,37 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     #endregion
-    
-    private readonly IDatabase _database;
-    private readonly UsersDbUserEntry _currentUser;
-    public MainWindowViewModel(IDatabase database, UsersDbUserEntry currentUser)
+
+    #region MessageData
+
+    private string _messageData = string.Empty;
+
+    public string MessageData
     {
-        _database = database;
-        _currentUser = currentUser;
-        
-        
-        FriendsList.Add(new ListBoxItemCategory("Пользователи в подписках:"));
-
-        foreach (var item in _currentUser.Friends)
+        get => _messageData;
+        set
         {
-            FriendsList.Add(new ListBoxItemUser($"{item.FullName} ({item.UserName})", item.UserName));
-        }
-
-        // todo: is yours is unnecessary, sender -> senderId rename!
-        _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(false, "hi", "@bob"));
-        _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(true, "hello", "@yegor"));
-        _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(true, "hell to world!", "@bob"));
+            SetProperty(ref _messageData, value);
+            SendMessageCommand.NotifyCanExecuteChanged();
+        } 
     }
+    
+    #endregion
+
+    #region SendMessageCommand
+
+    [RelayCommand(CanExecute = nameof(SendMessageCanExecute))]
+    private void SendMessage(string text)
+    {
+        _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(true, MessageData, _currentChatName!));
+        _currentChatHistory.Add(new ChatMessage(MessageData, true));
+        MessageData = string.Empty;
+        ChatView.SetFocusToFocusableElement();
+    }
+
+    private bool SendMessageCanExecute(string text) =>
+        !(string.IsNullOrEmpty(text))
+        && !(string.IsNullOrEmpty(_currentChatName));
+
+    #endregion
 }
