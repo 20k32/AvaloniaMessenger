@@ -2,12 +2,12 @@ namespace DesktopClient.Databases.DTOs;
 
 public class MessagesDbMessageEntry : RepositoryEntry
 {
-    public bool IsYours;
     public string Data;
-    public string Sender;
+    public string ChatName;
+    public bool IsYours;
     
-    public MessagesDbMessageEntry(bool isYours, string data, string sender) =>
-        (IsYours, Data, Sender) = (isYours, data, sender);
+    public MessagesDbMessageEntry(bool isYours, string data, string chatName) =>
+        (IsYours, Data, ChatName) = (isYours, data, chatName);
 
     public override void CopyValuesTo(RepositoryEntry entry)
     {
@@ -17,8 +17,7 @@ public class MessagesDbMessageEntry : RepositoryEntry
         }
 
         messageEntry.Data = Data;
-        messageEntry.Sender = Sender;
-        messageEntry.Sender = Sender;
+        messageEntry.ChatName = ChatName;
         messageEntry.IsYours = IsYours;
     }
 }

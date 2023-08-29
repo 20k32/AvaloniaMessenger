@@ -85,5 +85,6 @@ public class MainWindowViewModel : ViewModelBase
         // todo: is yours is unnecessary, sender -> senderId rename!
         _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(false, "hi", "@bob"));
         _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(true, "hello", "@yegor"));
+        _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(true, "hell to world!", "@bob"));
     }
 }

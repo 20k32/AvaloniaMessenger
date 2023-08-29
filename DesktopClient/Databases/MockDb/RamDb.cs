@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using DesktopClient.Databases.DTOs;
 using DesktopClient.Databases.MockDb.MessagesDB;
 using DesktopClient.Databases.MockDb.UsersDb;
@@ -53,13 +54,24 @@ public class RamDb : IDatabase
     
     public string AddMessageToUser(UsersDbUserEntry? user, MessagesDbMessageEntry? message)
     {
-        _messages
+        var usersMessageHistory = _messages
             .GetEntryById(user!.UserName)!
-            .Messages
-            .Add(message!.Sender, new List<MessagesDbMessageEntry>()
+            .Messages;
+
+        ref var currentChatMesages = 
+            ref CollectionsMarshal.GetValueRefOrAddDefault(usersMessageHistory, message!.ChatName, out var exists);
+
+        if (exists)
+        {
+            currentChatMesages!.Add(message);
+        }
+        else
+        {
+            currentChatMesages = new List<MessagesDbMessageEntry>()
             {
                 message
-            });
+            };
+        }
 
         return message.Id;
     }
