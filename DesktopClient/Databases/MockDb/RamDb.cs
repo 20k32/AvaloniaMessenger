@@ -21,7 +21,7 @@ public class RamDb : IDatabase
     public List<MessagesDbMessageEntry?> GetChatForUser(UsersDbUserEntry friend, UsersDbUserEntry? user) =>
         GetChatForUser(friend.UserName, user.UserName);
 
-    public List<MessagesDbMessageEntry?> GetChatForUser(string friendId, string userId)
+    public List<MessagesDbMessageEntry?>? GetChatForUser(string friendId, string userId)
     {
         var messageHistory = _messages.GetEntryById(userId);
         

@@ -24,8 +24,10 @@
 
   <!-- TextBox for searching users -->
   <Style Selector="TextBox.Chat">
-    <Setter Property="Watermark" Value="Search"/>
+    <Setter Property="Watermark" Value="Write message..."/>
     <Setter Property="Margin" Value="5"/>
+    <Setter Property="MaxHeight" Value="300"/>
+    <Setter Property="TextWrapping" Value="Wrap"/>
   </Style>
 
   <Style Selector="TextBox.Chat > Border">
@@ -34,6 +36,10 @@
     <Setter Property="BorderBrush" Value="Transparent"/>
   </Style>
 
+  <Style Selector="TextBox.Chat /template/ ScrollViewer#PART_ScrollViewer">
+    <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+  </Style>
+  
   <Style Selector="TextBox.Chat > Border > DockPanel">
     <Setter Property="Margin" Value="10"/>
   </Style>

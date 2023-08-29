@@ -13,15 +13,12 @@
                   Grid.Row="0">
       <ItemsControl.ItemTemplate>
         <DataTemplate>
-          <Grid ColumnDefinitions="*, *"
-                VerticalAlignment="Center">
-            <local:Message Grid.Column="{Binding BaseMessage.IsMessageYours}"
-                           HorizontalAlignment="{Binding Alignment}"
-                           Margin="{Binding Margin}"
-                           Text="{Binding BaseMessage.MessageText}"
-                           YourMessageBackgroundColor="Gold"
-                           FriendsMessageBackgroundColor="LightBlue"/>
-          </Grid>
+          <local:Message HorizontalAlignment="{Binding Alignment}"
+                         Margin="{Binding Margin}"
+                         Text="{Binding BaseMessage.MessageText}"
+                         YourMessageBackgroundColor="Gold"
+                         FriendsMessageBackgroundColor="LightBlue"
+                         MaxDesiredWidth="{Binding $parent[ItemsControl].Bounds.Width}"/>
         </DataTemplate>
       </ItemsControl.ItemTemplate>
     </ItemsControl>
@@ -38,6 +35,7 @@
       <Button Content="Send"
               Command="{Binding #ChatViewControl.SendMessageCommand}"
               CommandParameter="{Binding #ChatViewControl.SendMessageCommandParameter}"
+              HotKey="Enter"
               Classes="Chat"
               Grid.Column="2"/>
     </Grid>

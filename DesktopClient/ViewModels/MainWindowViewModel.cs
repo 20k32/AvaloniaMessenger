@@ -74,13 +74,15 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         var currentUserMessageHistory = _database.GetChatForUser(chatName, _currentUser.UserName);
             
         CurrentChatHistory.Clear();
-            
-        if (currentUserMessageHistory != null)
+
+        if (currentUserMessageHistory == null)
         {
-            foreach (var item in currentUserMessageHistory)
-            {
-                CurrentChatHistory.Add(new ChatMessage(item!.Data, item!.IsYours));
-            }
+            return;
+        }
+        
+        foreach (var item in currentUserMessageHistory)
+        {
+            CurrentChatHistory.Add(new ChatMessage(item!.Data, item!.IsYours));
         }
     }
     #endregion

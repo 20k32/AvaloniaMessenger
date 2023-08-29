@@ -8,6 +8,8 @@ using DesktopClient.Models.Drawing;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Avalonia.Layout;
+using Avalonia.LogicalTree;
 
 namespace DesktopClient.Views
 {
@@ -15,7 +17,9 @@ namespace DesktopClient.Views
     {
         private const string PART_CANVAS_NAME = "PART_CANVAS";
         private const string PART_BORDER_NAME = "PART_BORDER";
-
+        
+        private static ItemsControl ParentControl = null!;
+        
         private Canvas _canvas = null!;
         private Border _border = null!;
 
@@ -31,20 +35,38 @@ namespace DesktopClient.Views
         }
 
         #endregion
+        
+        #region MaxDesiredWidth
 
+        private double _maxDesiredWidth;
 
+        public static readonly DirectProperty<Message, double> MaxDesiredWidthProperty =
+            AvaloniaProperty.RegisterDirect<Message, double>(
+                nameof(MaxDesiredWidth), 
+                o => o.MaxDesiredWidth, 
+                (o, v) => o.MaxDesiredWidth = v);
+
+        public double MaxDesiredWidth
+        {
+            get => _maxDesiredWidth;
+            set => SetAndRaise(MaxDesiredWidthProperty, ref _maxDesiredWidth, value - 100);
+        }
+
+        #endregion
+        
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
 
+            ParentControl = Parent.FindLogicalAncestorOfType<ItemsControl>()!;
             _canvas = (Canvas)e.NameScope.Find(PART_CANVAS_NAME)!;
             _border = (Border)e.NameScope.Find(PART_BORDER_NAME)!;
             
-            switch (Grid.GetColumn(this))
+            switch (HorizontalAlignment)
             {
                 // the message arrow indicates left -- <(...)
                 // so the message is from your friend
-                case 0:
+                case HorizontalAlignment.Left:
                 {
                     var path = ArrowDrawingHelper.DrawLeftArrow();
 
@@ -59,7 +81,7 @@ namespace DesktopClient.Views
 
                 // the message arrow indicates right -- (...)>
                 // so the message is yours
-                case 1:
+                case HorizontalAlignment.Right:
                 {
                     var path = ArrowDrawingHelper.DrawRightArrow();
                     _border.Background = ArrowDrawingHelper.YourMessageColorBrush;

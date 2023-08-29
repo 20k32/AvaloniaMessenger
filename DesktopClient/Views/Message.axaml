@@ -11,14 +11,15 @@
     <Style Selector="controls|Message">
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid ColumnDefinitions="Auto, Auto">
+                <Grid ColumnDefinitions="Auto, 10">
                     <Border Grid.Column="0"
                             x:Name="PART_BORDER">
                         <TextBlock Text="{TemplateBinding Text}"
-                                   HorizontalAlignment="Left"
                                    Margin="8"
                                    FontSize="18"
-                                   FontWeight="Medium" />
+                                   FontWeight="Medium" 
+                                   TextWrapping="Wrap"
+                                   MaxWidth="{TemplateBinding MaxDesiredWidth}"/>
                     </Border>
 
                     <Canvas Grid.Column="1"
@@ -26,7 +27,6 @@
                             Height="10"
                             Background="Transparent"
                             VerticalAlignment="Bottom"
-                            HorizontalAlignment="Left"
                             x:Name="PART_CANVAS" />
                 </Grid>
             </ControlTemplate>
