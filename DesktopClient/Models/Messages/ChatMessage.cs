@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DesktopClient.Models.Messages
 {
-    internal sealed class ChatMessage
+    public sealed class ChatMessage
     {
         private static readonly Thickness _yourMessageThickness = new(0, 5, 2, 0);
         private static readonly Thickness _friedMessageThickness = new(5, 2, 0, 0);

@@ -46,7 +46,7 @@ internal class MessageRamDbAccessor : IRepositoryAccessor<MessagesDbUserEntry>
         return entry.Id;
     }
 
-    public IList<MessagesDbUserEntry?> Read()
+    public IList<MessagesDbUserEntry> Read()
     {
         return MessagesRamDb.Data.ToList()!;
     }

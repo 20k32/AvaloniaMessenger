@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DesktopClient.Models.Messages
 {
-    internal class MessageBase
+    public class MessageBase
     {
         public int IsMessageYours { get; init; }
         public string MessageText { get; init; } = null!;

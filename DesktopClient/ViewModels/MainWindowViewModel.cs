@@ -5,6 +5,7 @@ using DesktopClient.Databases.DTOs;
 using DesktopClient.Models.Auth;
 using DesktopClient.ViewModels;
 using DesktopClient.Models.ListBox;
+using DesktopClient.Models.Messages;
 
 namespace DesktopClient.ViewModels;
 
@@ -31,15 +32,39 @@ public class MainWindowViewModel : ViewModelBase
         get => _selectedFriend;
         set
         {
-            if (value.IsCategory)
+            if (value.IsCategory
+                || value.Equals(SelectedItem))
             {
                 return;
             }
             
             SetProperty(ref _selectedFriend, value);
+            
+            var currentUserMessageHistory = _database.GetChatForUser(_selectedFriend.InnerData, _currentUser.UserName);
+            
+            CurrentChatHistory.Clear();
+            
+            if (currentUserMessageHistory != null)
+            {
+                foreach (var item in currentUserMessageHistory)
+                {
+                    CurrentChatHistory.Add(new ChatMessage(item!.Data, item!.IsYours));
+                }
+            }
         }
     }
     
+    #endregion
+
+    #region CurrentChatHistory
+
+    private ObservableCollection<ChatMessage> _currentChatHistory = new();
+    public ObservableCollection<ChatMessage> CurrentChatHistory
+    {
+        get => _currentChatHistory;
+        set => _currentChatHistory = value;
+    }
+
     #endregion
     
     private readonly IDatabase _database;
@@ -54,7 +79,11 @@ public class MainWindowViewModel : ViewModelBase
 
         foreach (var item in _currentUser.Friends)
         {
-            FriendsList.Add(new ListBoxItemUser(item.UserName));
+            FriendsList.Add(new ListBoxItemUser($"{item.FullName} ({item.UserName})", item.UserName));
         }
+
+        // todo: is yours is unnecessary, sender -> senderId rename!
+        _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(false, "hi", "@bob"));
+        _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(true, "hello", "@yegor"));
     }
 }

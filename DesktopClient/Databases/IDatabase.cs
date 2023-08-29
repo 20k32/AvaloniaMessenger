@@ -5,7 +5,8 @@ namespace DesktopClient.Databases;
 
 public interface IDatabase
 {
-    List<MessagesDbMessageEntry?> GetChatForUser(UsersDbUserEntry friend, MessagesDbUserEntry? user);
+    List<MessagesDbMessageEntry?> GetChatForUser(UsersDbUserEntry friend, UsersDbUserEntry? user);
+    List<MessagesDbMessageEntry?> GetChatForUser(string friendId, string userId);
     UsersDbUserEntry? GetUserByUserName(string userName);
     string AddUser(UsersDbUserEntry? user);
     string RemoveUser(UsersDbUserEntry? user);

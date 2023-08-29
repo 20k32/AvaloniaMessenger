@@ -17,9 +17,20 @@ public class RamDb : IDatabase
         _users = new();
     }
 
-    public List<MessagesDbMessageEntry?> GetChatForUser(UsersDbUserEntry friend, MessagesDbUserEntry? user)
+    public List<MessagesDbMessageEntry?> GetChatForUser(UsersDbUserEntry friend, UsersDbUserEntry? user) =>
+        GetChatForUser(friend.UserName, user.UserName);
+
+    public List<MessagesDbMessageEntry?> GetChatForUser(string friendId, string userId)
     {
-        return user!.Messages[friend.Id].ToList()!;
+        var messageHistory = _messages.GetEntryById(userId);
+        
+        List<MessagesDbMessageEntry> result = null!;
+
+        if (messageHistory!.Messages.TryGetValue(friendId, out var value))
+        {
+            result = value.ToList();
+        }
+        return result!;
     }
 
     public UsersDbUserEntry? GetUserByUserName(string userName) =>

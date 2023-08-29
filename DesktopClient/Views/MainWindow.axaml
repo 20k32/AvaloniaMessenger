@@ -28,6 +28,7 @@
                   ResizeDirection="Columns"
                   ResizeBehavior="PreviousAndNext"/>
 
-    <views:ChatView Grid.Column="2"/>
+    <views:ChatView Grid.Column="2"
+                    Messages="{Binding CurrentChatHistory}"/>
   </Grid>
 </Window>

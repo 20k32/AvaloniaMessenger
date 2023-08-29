@@ -3,7 +3,7 @@ namespace DesktopClient.Databases.DTOs;
 public class MessagesDbMessageEntry : RepositoryEntry
 {
     public bool IsYours;
-    public string Data = null!;
+    public string Data;
     public string Sender;
     
     public MessagesDbMessageEntry(bool isYours, string data, string sender) =>
