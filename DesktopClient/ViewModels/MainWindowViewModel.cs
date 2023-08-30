@@ -79,7 +79,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         get => _selectedFriend;
         set
         {
-            if (value.IsCategory
+            if (value is null 
+                || value.IsCategory
                 || value.Equals(SelectedItem))
             {
                 return;
@@ -201,12 +202,24 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             FriendsList.Clear();
         }
 
+        Dispatcher.UIThread.Invoke(() => 
+            FriendsList.Add(new ListBoxItemCategory("Проводим поиско по базе...")));
+        
         await Task.Delay(1000);
 
         Dispatcher.UIThread.Invoke(() =>
         {
-            FriendsList.Add(new ListBoxItemCategory("Глобальные пользователи:"));
-            FriendsList.Add(new ListBoxItemUser("blablabla", ""));
+            FriendsList[0] = new ListBoxItemCategory("Пользователи глобально:");
+            
+            var result = _database.GetGlobalUsersByUserNameAndFullName(text);
+            
+            GlobalFriendsCache.ResetPool();
+            for (int i = 0; i < result.Count; i++)
+            {
+                GlobalFriendsCache.SetUser(i, $"{result[i].FullName} ({result[i].UserName})");
+            }
+            
+            FriendsList.AddRange(GlobalFriendsCache.GetAllRealUsers());
         });
        
     }

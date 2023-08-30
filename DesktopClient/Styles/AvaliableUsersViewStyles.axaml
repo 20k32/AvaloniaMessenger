@@ -87,8 +87,6 @@
     <Style Selector="ListBoxItem.AvaliableUsers_Users">
         <Setter Property="Background" Value="LightCoral" />
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Margin" Value="0"/>
-        <Setter Property="Padding" Value="0"/>
     </Style>
     
     <Style Selector="ListBox ListBoxItem">

@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Class="DesktopClient.Views.UIGlobalUser">
+    
+    <Border Classes="UIBorder"
+            Background="Beige"
+            x:Name="UiBorder">
+    <Grid ColumnDefinitions="Auto, Auto, Auto">
+      <PathIcon Data="{StaticResource AnotherUserIcon}"
+                Classes="UIPathIcon"
+                Grid.Column="0"
+                Margin="0, 2, 0, 2"/>
+      <Panel Width="{Binding #UiBorder.BorderThickness.Left}"
+             Classes="UIPanel"
+             Grid.Column="1"/>
+      <TextBlock x:Name="UserNameTextBlock"
+                 Classes="UITextBlock"
+                 Grid.Column="2"/>
+    </Grid>
+  </Border>
+</UserControl>

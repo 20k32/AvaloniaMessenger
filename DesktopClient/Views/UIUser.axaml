@@ -10,7 +10,7 @@
   <Border Classes="UIBorder"
           Background="Beige"
           x:Name="UiBorder">
-    <Grid ColumnDefinitions="Auto, Auto, Auto, *">
+    <Grid ColumnDefinitions="Auto, Auto, Auto">
       <PathIcon Data="{StaticResource AnotherUserIcon}"
                 Classes="UIPathIcon"
                 Grid.Column="0"
@@ -18,14 +18,17 @@
       <Panel Width="{Binding #UiBorder.BorderThickness.Left}"
              Classes="UIPanel"
              Grid.Column="1"/>
-      <TextBlock x:Name="UserNameTextBlock"
-                 Classes="UITextBlock"
-                 Grid.Column="2"/>
-      <TextBlock Grid.Column="3" 
-                 Text="{Binding #UiUserControl.UnreadMessages, 
+      <WrapPanel Orientation="Horizontal"
+                 Grid.Column="2"
+                 VerticalAlignment="Center">
+          <TextBlock x:Name="UserNameTextBlock"
+                     Classes="UITextBlock"/>
+          <TextBlock Text="{Binding #UiUserControl.UnreadMessages, 
                      Converter={StaticResource UnreadCountConverter}}"
-                 Classes="UITextBlock"
-                 HorizontalAlignment="Right"/>
+                     Classes="UITextBlock"
+                     HorizontalAlignment="Right"/>
+      </WrapPanel>
+      
     </Grid>
   </Border>
 

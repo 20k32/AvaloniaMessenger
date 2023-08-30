@@ -10,13 +10,14 @@
         Title="DesktopClient"
         x:DataType="vm:MainWindowViewModel"
         FontFamily="{StaticResource NunitoFont}"
-        FontSize="18">
+        FontSize="18"
+        MinWidth="800">
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition MaxWidth="600"
-                        MinWidth="300"/>
+      <ColumnDefinition MaxWidth="1000"
+                        MinWidth="400"/>
       <ColumnDefinition Width="4"/>
-      <ColumnDefinition />
+      <ColumnDefinition MinWidth="400"/>
     </Grid.ColumnDefinitions>
 
     <views:AvaliableUsersView Grid.Column="0"

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -77,5 +78,22 @@ public class RamDb : IDatabase
         }
         
         return message.Id;
+    }
+
+    public List<UsersDbUserEntry> GetGlobalUsersByUserNameAndFullName(string options)
+    {
+        var allUsers = _users.Read();
+
+        Func<UsersDbUserEntry?, bool> selectionPredicate = u =>
+        {
+            var lowerCaseOptions = options.ToLower();
+            
+            return u.UserName.ToLower().Contains(lowerCaseOptions)
+                || u.FullName.ToLower().Contains(lowerCaseOptions);
+        };
+
+        return allUsers
+            .Where(selectionPredicate)
+            .ToList()!;
     }
 }
