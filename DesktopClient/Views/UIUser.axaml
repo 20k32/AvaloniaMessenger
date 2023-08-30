@@ -23,7 +23,7 @@
                  Grid.Column="2"/>
       <TextBlock Grid.Column="3" 
                  Text="{Binding #UiUserControl.UnreadMessages, 
-                  Converter={StaticResource UnreadCountConverter}}"
+                     Converter={StaticResource UnreadCountConverter}}"
                  Classes="UITextBlock"
                  HorizontalAlignment="Right"/>
     </Grid>

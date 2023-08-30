@@ -1,12 +1,31 @@
-﻿using DesktopClient.Views;
+﻿using System;
+using System.Reactive.Subjects;
+using Avalonia;
+using Avalonia.Data;
+using DesktopClient.Views;
 
 namespace DesktopClient.Models.ListBox
 {
     internal sealed class ListBoxItemUser : ListBoxItemBase
     {
+        private int _unreadMessages = 0;
+        private readonly Subject<int> _source;
+        private readonly IDisposable _subscription;
+        
         public ListBoxItemUser(string userName, string innerData) : base(innerData, isUser: true)
         {
-            Description = new UIUser(userName);
+            var uiUser = new UIUser(userName);
+
+            _source = new Subject<int>();
+            _subscription = uiUser.Bind(UIUser.UnreadMessagesProperty, _source, BindingPriority.LocalValue);
+            
+            Description = uiUser;
+        }
+
+        public void UpdateUnreadMessageCount(int unreadMessagesCount)
+        {
+            _unreadMessages += unreadMessagesCount; 
+            _source.OnNext(_unreadMessages);
         }
         
         public override bool Equals(object? obj) =>
@@ -15,5 +34,10 @@ namespace DesktopClient.Models.ListBox
 
         public override int GetHashCode() =>
             base.GetHashCode();
+
+        public override void Dispose()
+        {
+            _subscription.Dispose();
+        }
     }
 }

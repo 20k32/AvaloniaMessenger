@@ -131,6 +131,10 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     {
         _database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(true, MessageData, _currentChatName!));
         _currentChatHistory.Add(new ChatMessage(MessageData, true));
+        if (SelectedItem is ListBoxItemUser user)
+        {
+            user.UpdateUnreadMessageCount(1);
+        }
         MessageData = string.Empty;
         ChatView.SetFocusToFocusableElement();
     }

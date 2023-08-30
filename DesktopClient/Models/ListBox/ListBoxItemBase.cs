@@ -1,8 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 
 namespace DesktopClient.Models.ListBox
 {
-    public class ListBoxItemBase
+    public class ListBoxItemBase : IDisposable
     {
         public Control Description { get; init; } = null!;
         // used to located users/messages from db
@@ -21,5 +22,10 @@ namespace DesktopClient.Models.ListBox
 
         public override int GetHashCode() =>
             Description.GetHashCode();
+
+        public virtual void Dispose()
+        {
+            // todo: release managed resources here
+        }
     }
 }

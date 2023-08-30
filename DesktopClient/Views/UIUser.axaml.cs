@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 
 namespace DesktopClient.Views
@@ -14,13 +15,21 @@ namespace DesktopClient.Views
             UserNameTextBlock.Text = userName;
         }
 
-        // this must be dependency property
-        private int _unreadMessages = 1;
+
+        #region UnreadMessages
+
+        private int _unreadMessages;
+
+        public static readonly DirectProperty<UIUser, int> UnreadMessagesProperty =
+            AvaloniaProperty.RegisterDirect<UIUser, int>(
+                nameof(UnreadMessages), o => o.UnreadMessages, (o, v) => o.UnreadMessages = v);
 
         public int UnreadMessages
         {
             get => _unreadMessages;
-            set => _unreadMessages = value; 
+            set => SetAndRaise(UnreadMessagesProperty, ref _unreadMessages, value);
         }
+
+        #endregion
     }
 }
