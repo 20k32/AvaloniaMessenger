@@ -3,6 +3,7 @@ using DesktopClient.Models.ListBox;
 using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Styling;
+using CommunityToolkit.Mvvm.Input;
 
 namespace DesktopClient.Views
 {
@@ -41,6 +42,24 @@ namespace DesktopClient.Views
         {
             get => _selectedFriend;
             set => SetAndRaise(SelectedFriendProperty, ref _selectedFriend, value);
+        }
+
+        #endregion
+        
+        #region SearchOptions
+
+        private string _searchOptions;
+
+        public static readonly DirectProperty<AvaliableUsersView, string> SearchOptionsProperty =
+            AvaloniaProperty.RegisterDirect<AvaliableUsersView, string>(
+                nameof(SearchOptions), 
+                o => o.SearchOptions, 
+                (o, v) => o.SearchOptions = v);
+
+        public string SearchOptions
+        {
+            get => _searchOptions;
+            set => SetAndRaise(SearchOptionsProperty, ref _searchOptions, value);
         }
 
         #endregion
