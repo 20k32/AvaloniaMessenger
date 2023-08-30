@@ -13,9 +13,9 @@
             <ControlTemplate>
                 <Grid ColumnDefinitions="Auto, Auto">
                     <Border Grid.Column="0"
-                            x:Name="PART_BORDER">
+                            x:Name="PART_BORDER" 
+                            Padding="8">
                         <TextBlock Text="{TemplateBinding Text}"
-                                   Margin="8"
                                    FontSize="18"
                                    FontWeight="Medium" 
                                    TextWrapping="Wrap"

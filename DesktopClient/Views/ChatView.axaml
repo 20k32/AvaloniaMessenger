@@ -7,21 +7,23 @@
              x:Class="DesktopClient.Views.ChatView"
              x:DataType="local:ChatView"
              x:Name="ChatViewControl">
-  <Grid RowDefinitions="*, Auto">
-    <ItemsControl Background="Green"
-                  ItemsSource="{Binding #ChatViewControl.Messages}"
-                  Grid.Row="0">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <local:Message HorizontalAlignment="{Binding Alignment}"
-                         Margin="{Binding Margin}"
-                         Text="{Binding BaseMessage.MessageText}"
-                         YourMessageBackgroundColor="Gold"
-                         FriendsMessageBackgroundColor="LightBlue"
-                         MaxDesiredWidth="{Binding $parent[ItemsControl].Bounds.Width}"/>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
+  <Grid RowDefinitions="*, Auto"
+        Background="Green">
+      <ScrollViewer Grid.Row="0">
+          <ItemsControl ItemsSource="{Binding #ChatViewControl.Messages}">
+              <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                      <local:Message HorizontalAlignment="{Binding Alignment}"
+                                     Margin="{Binding Margin}"
+                                     Text="{Binding BaseMessage.MessageText}"
+                                     YourMessageBackgroundColor="Gold"
+                                     FriendsMessageBackgroundColor="LightBlue"
+                                     MaxDesiredWidth="{Binding $parent[ItemsControl].Bounds.Width}"/>
+                  </DataTemplate>
+              </ItemsControl.ItemTemplate>
+          </ItemsControl>
+      </ScrollViewer>
+      
     <Grid Grid.Row="1"
           Background="Beige"
           ColumnDefinitions="Auto, *, Auto">
