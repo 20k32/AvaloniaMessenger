@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Databases;
 using DesktopClient.Databases.DTOs;
@@ -221,6 +222,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             GlobalUsersCache.ResetPool();
             LinkedList<ListBoxItemBase> friends = new();
             var snapshot = UserFriendsCache.Cached;
+            int globalsCount = default;
             
             for (int i = 0; i < result.Count; i++)
             {
@@ -232,13 +234,23 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                 }
 
                 AddGlobalUserToCache(result[i], i, $"{result[i].FullName} ({result[i].UserName})", result[i].UserName);
+                globalsCount++;
+            }
 
+            FriendsList.Clear();
+            
+            if (globalsCount != 0)
+            {
+                FriendsList.Add(new ListBoxItemCategory("Пользователи глобально:"));
+                FriendsList.AddRange(GlobalUsersCache.GetAllRealUsers());
+            }
+
+            if (friends.Count != 0)
+            {
+                FriendsList.Add(new ListBoxItemCategory("Друзья:"));
+                FriendsList.AddRange(friends.AsEnumerable());
             }
             
-            FriendsList[0] = new ListBoxItemCategory("Пользователи глобально:");
-            FriendsList.AddRange(GlobalUsersCache.GetAllRealUsers());
-            FriendsList.Add(new ListBoxItemCategory("Друзья:"));
-            FriendsList.AddRange(friends.AsEnumerable());
         });
        
     }
@@ -249,15 +261,23 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         GlobalUsersCache.SetUser(i, data, innerData, command);
     }
     
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanExecuteAddFriend))]
     private void AddFriend(string data)
     {
-        
+        var user = _database.GetUserByUserName(data);
+        _currentUser.Friends.Add(user);
+        var listItem = new ListBoxItemUser($"{user.FullName}({user.UserName})", user.UserName);
+        UserFriendsCache.Add(listItem);
+        FriendsList.Add(listItem);
+        var currentGlobalUser = FriendsList.First(elem => elem.InnerData == user.UserName);
+        FriendsList.Remove(currentGlobalUser);
     }
 
     private bool CanExecuteAddFriend(string data)
     {
-        return true;
+        var user = _database.GetUserByUserName(data);
+        return user is not null &&
+               !_currentUser.Friends.Contains(user);
     }
     #endregion
 }
