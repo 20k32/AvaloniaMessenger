@@ -2,12 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             x:Class="DesktopClient.Views.UIGlobalUser">
+             x:Class="DesktopClient.Views.UIGlobalUser"
+             x:Name="UIGlobalUserControl">
     
     <Border Classes="UIBorder"
             Background="Beige"
             x:Name="UiBorder">
-    <Grid ColumnDefinitions="Auto, Auto, Auto">
+    <Grid ColumnDefinitions="Auto, Auto, Auto, *">
       <PathIcon Data="{StaticResource AnotherUserIcon}"
                 Classes="UIPathIcon"
                 Grid.Column="0"
@@ -17,7 +18,13 @@
              Grid.Column="1"/>
       <TextBlock x:Name="UserNameTextBlock"
                  Classes="UITextBlock"
+                 Text="{Binding #UIGlobalUserControl.LongUserName}"
                  Grid.Column="2"/>
+      <Button Grid.Column="3" 
+              Content="Add" 
+              Classes="UIAddFriendButton"
+              Command="{Binding #UIGlobalUserControl.AddToFriendCommand}"
+              CommandParameter="{Binding #UIGlobalUserControl.ShortUserName}"/>
     </Grid>
   </Border>
 </UserControl>

@@ -7,7 +7,7 @@ namespace DesktopClient.Models.ListBox
     {
         public Control Description { get; init; } = null!;
         // used to located users/messages from db
-        public string InnerData { get; init; }
+        public string InnerData { get; protected set; }
         public bool IsCategory { get; init; }
         public bool IsUser { get; init; }
         public bool IsMessage { get; init; }

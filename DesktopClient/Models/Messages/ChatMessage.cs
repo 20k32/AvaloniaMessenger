@@ -12,8 +12,8 @@ namespace DesktopClient.Models.Messages
 {
     public sealed class ChatMessage
     {
-        private static readonly Thickness _yourMessageThickness = new(0, 5, 2, 0);
-        private static readonly Thickness _friedMessageThickness = new(5, 2, 0, 0);
+        private static readonly Thickness _yourMessageThickness = new(0, 5, 2, 5);
+        private static readonly Thickness _friedMessageThickness = new(2, 5, 0, 5);
         public MessageBase BaseMessage { get; } 
         public HorizontalAlignment Alignment { get; init; }
         public Thickness Margin { get; init; }

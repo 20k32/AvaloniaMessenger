@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
@@ -72,9 +75,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     
     #region SelectedFriend
     
-    private ListBoxItemBase _selectedFriend = null!;
+    private ListBoxItemBase? _selectedFriend = null!;
 
-    public ListBoxItemBase SelectedItem
+    public ListBoxItemBase? SelectedItem
     {
         get => _selectedFriend;
         set
@@ -87,22 +90,26 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             }
             
             SetProperty(ref _selectedFriend, value);
-            
-            if (SelectedItem is ListBoxItemUser user)
-            {
-                user.ResetUnreadMessageCount();
-            }
-            
             LoadHistoryFor(_selectedFriend.InnerData);
-            _currentChatName = _selectedFriend.InnerData;
-            SendMessageCommand.NotifyCanExecuteChanged();
+            NotifySendCommandCanExecuteChanged(_selectedFriend.InnerData);
             ChatView.SetFocusToFocusableElement();
         }
     }
 
 
+    private void NotifySendCommandCanExecuteChanged(string data)
+    {
+        _currentChatName = data;
+        SendMessageCommand.NotifyCanExecuteChanged();
+    }
+    
     private void LoadHistoryFor(string chatName)
     {
+        if (SelectedItem is ListBoxItemUser user)
+        {
+            user.ResetUnreadMessageCount();
+        }
+        
         var currentUserMessageHistory = _database.GetChatForUser(chatName, _currentUser.UserName);
             
         CurrentChatHistory.Clear();
@@ -205,24 +212,52 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         Dispatcher.UIThread.Invoke(() => 
             FriendsList.Add(new ListBoxItemCategory("Проводим поиско по базе...")));
         
+        var result = _database.GetGlobalUsersByUserNameAndFullName(text);
+        
         await Task.Delay(1000);
 
         Dispatcher.UIThread.Invoke(() =>
         {
-            FriendsList[0] = new ListBoxItemCategory("Пользователи глобально:");
+            GlobalUsersCache.ResetPool();
+            LinkedList<ListBoxItemBase> friends = new();
+            var snapshot = UserFriendsCache.Cached;
             
-            var result = _database.GetGlobalUsersByUserNameAndFullName(text);
-            
-            GlobalFriendsCache.ResetPool();
             for (int i = 0; i < result.Count; i++)
             {
-                GlobalFriendsCache.SetUser(i, $"{result[i].FullName} ({result[i].UserName})");
+                if (_currentUser.Friends.Contains(result[i]))
+                {
+                    var elem = snapshot.First(snapshotElem => snapshotElem.InnerData == result[i].UserName);
+                    friends.AddLast(elem);
+                    continue;
+                }
+
+                AddGlobalUserToCache(result[i], i, $"{result[i].FullName} ({result[i].UserName})", result[i].UserName);
+
             }
             
-            FriendsList.AddRange(GlobalFriendsCache.GetAllRealUsers());
+            FriendsList[0] = new ListBoxItemCategory("Пользователи глобально:");
+            FriendsList.AddRange(GlobalUsersCache.GetAllRealUsers());
+            FriendsList.Add(new ListBoxItemCategory("Друзья:"));
+            FriendsList.AddRange(friends.AsEnumerable());
         });
        
     }
 
+    private void AddGlobalUserToCache(UsersDbUserEntry user, int i, string data, string innerData)
+    {
+        var command = new RelayCommand<string>(AddFriend!, CanExecuteAddFriend!);
+        GlobalUsersCache.SetUser(i, data, innerData, command);
+    }
+    
+    [RelayCommand]
+    private void AddFriend(string data)
+    {
+        
+    }
+
+    private bool CanExecuteAddFriend(string data)
+    {
+        return true;
+    }
     #endregion
 }

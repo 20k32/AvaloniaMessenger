@@ -8,6 +8,7 @@ public class UsersDbUserEntry : RepositoryEntry
     public string UserName;
     public string Password;
     public string FullName;
+    
     public List<UsersDbUserEntry> Friends;
     public UsersDbUserEntry(string userName, string password, string fullName) : base() =>
         (UserName, Password, FullName, Friends, Id) = (userName, password, fullName, new(), Guid.NewGuid().ToString());
@@ -30,4 +31,14 @@ public class UsersDbUserEntry : RepositoryEntry
         }
     }
 
+    public override bool Equals(object? obj)
+    {
+        return obj is UsersDbUserEntry user &&
+               user.UserName == UserName;
+    }
+
+    public override int GetHashCode()
+    {
+        return $"{UserName}{Password}".GetHashCode();
+    }
 }

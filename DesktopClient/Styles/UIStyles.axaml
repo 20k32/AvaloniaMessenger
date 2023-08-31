@@ -38,4 +38,14 @@
     <Setter Property="BorderBrush" Value="Black"/>
     <Setter Property="Margin" Value="10"/>
   </Style>
+  
+  <Style Selector="Button.UIAddFriendButton">
+    <Setter Property="HorizontalAlignment" Value="Right"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="Height" Value="45"/>
+    <Setter Property="Width" Value="45"/>
+    <Setter Property="Margin" Value="5"/>
+  </Style>
 </Styles>

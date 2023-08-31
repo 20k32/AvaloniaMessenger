@@ -2,18 +2,19 @@ using System.Buffers;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
+using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Models.ListBox;
 using DesktopClient.Views;
 
 namespace DesktopClient.Models.Caching;
 
 // this class is needed to store a pool of a global clients that current user may search
-public static class GlobalFriendsCache
+public static class GlobalUsersCache
 {
     private const int ENTRIES_COUNT = 50;
     private static readonly ListBoxItemGlobalUser[] _globalUsers;
 
-    static GlobalFriendsCache()
+    static GlobalUsersCache()
     {
         _globalUsers = ArrayPool<ListBoxItemGlobalUser>.Shared.Rent(ENTRIES_COUNT);
 
@@ -22,22 +23,20 @@ public static class GlobalFriendsCache
             _globalUsers[i] = new(string.Empty);
         }
     }
-
-    private static TextBlock GetCurrentTextBlock(int index) => 
-        ((UIGlobalUser)_globalUsers[index].Description).UserNameTextBlock;
     
-    public static void SetUser(int index, string userName)
+    
+    public static void SetUser(int index, string userName, string innerData, RelayCommand<string> command)
     {
-       GetCurrentTextBlock(index).Text = userName;
+        _globalUsers[index].UserNameDescription = userName;
+       _globalUsers[index].SetAddFriendCommand(command);
+       _globalUsers[index].SetInnerData(innerData);
     }
 
     public static IEnumerable<ListBoxItemGlobalUser> GetAllRealUsers()
     {
         for (int i = 0; i < ENTRIES_COUNT; i++)
         {
-            var currentTextBlock = GetCurrentTextBlock(i);
-            
-            if (currentTextBlock.Text != string.Empty)
+            if (_globalUsers[i].UserNameDescription != string.Empty)
             {
                 yield return _globalUsers[i];
             }
@@ -48,11 +47,9 @@ public static class GlobalFriendsCache
     {
         for (int i = 0; i < ENTRIES_COUNT; i++)
         {
-            var currentTextBlock = GetCurrentTextBlock(i);
-            
-            if (currentTextBlock.Text != string.Empty)
+            if (_globalUsers[i].UserNameDescription != string.Empty)
             {
-                currentTextBlock.Text = string.Empty;
+                _globalUsers[i].UserNameDescription = string.Empty;
             }
         }
     }
