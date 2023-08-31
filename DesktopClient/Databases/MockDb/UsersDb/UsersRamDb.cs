@@ -11,7 +11,7 @@ public class UsersRamDb
     {
         Data = new();
 
-        var yegorchik = new UsersDbUserEntry("@yegor", "12345", "Yegorchik");
+        var yegorchik = new UsersDbUserEntry("@yegor", "12345", "Yegorchik11111111111111");
         var bob = new UsersDbUserEntry("@bob", "13245", "Bobby");
         var alex = new UsersDbUserEntry("@alex", "23456", "Alex");
         

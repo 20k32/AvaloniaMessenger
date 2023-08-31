@@ -7,29 +7,43 @@
              x:Class="DesktopClient.Views.UIUser"
              x:DataType="views:UIUser"
              x:Name="UiUserControl">
-  <Border Classes="UIBorder"
-          Background="Beige"
-          x:Name="UiBorder">
-    <Grid ColumnDefinitions="Auto, Auto, Auto">
-      <PathIcon Data="{StaticResource AnotherUserIcon}"
-                Classes="UIPathIcon"
-                Grid.Column="0"
-                Margin="0, 2, 0, 2"/>
-      <Panel Width="{Binding #UiBorder.BorderThickness.Left}"
-             Classes="UIPanel"
-             Grid.Column="1"/>
-      <WrapPanel Orientation="Horizontal"
-                 Grid.Column="2"
-                 VerticalAlignment="Center">
-          <TextBlock x:Name="UserNameTextBlock"
-                     Classes="UITextBlock"/>
-          <TextBlock Text="{Binding #UiUserControl.UnreadMessages, 
+    <Border Classes="UIBorder"
+            Background="Beige"
+            x:Name="UiBorder">
+        <Grid ColumnDefinitions="Auto, Auto, Auto, *">
+            <PathIcon Data="{StaticResource AnotherUserIcon}"
+                      Classes="UIPathIcon"
+                      Grid.Column="0"
+                      Margin="0, 2, 0, 2" />
+
+            <Panel Width="{Binding #UiBorder.BorderThickness.Left}"
+                   Classes="UIPanel"
+                   Grid.Column="1" />
+
+            <TextBlock x:Name="UserNameTextBlock"
+                       Classes="UITextBlock"
+                       Grid.Column="2"
+                       TextWrapping="WrapWithOverflow"
+                       MaxWidth="320" />
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="3"
+                        HorizontalAlignment="Right">
+                <TextBlock
+                    Text="{Binding #UiUserControl.UnreadMessages,
                      Converter={StaticResource UnreadCountConverter}}"
-                     Classes="UITextBlock"
-                     HorizontalAlignment="Right"/>
-      </WrapPanel>
-      
-    </Grid>
-  </Border>
+                    Classes="UITextBlock" />
+                
+                <Button Classes="UIAddFriendButton">
+                    <Button.Content>
+                        <PathIcon Data="{StaticResource RemoveCircle}"
+                                  Width="45"
+                                  Height="45" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+    </Border>
 
 </UserControl>

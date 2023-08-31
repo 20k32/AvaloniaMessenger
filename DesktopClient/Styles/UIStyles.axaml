@@ -48,4 +48,8 @@
     <Setter Property="Width" Value="45"/>
     <Setter Property="Margin" Value="5"/>
   </Style>
+  
+  <Style Selector="Button.UIAddFriendButton > ContentPresenter">
+    <Setter Property="CornerRadius" Value="20"/>
+  </Style>
 </Styles>

@@ -21,10 +21,15 @@
                  Text="{Binding #UIGlobalUserControl.LongUserName}"
                  Grid.Column="2"/>
       <Button Grid.Column="3" 
-              Content="Add" 
               Classes="UIAddFriendButton"
               Command="{Binding #UIGlobalUserControl.AddToFriendCommand}"
-              CommandParameter="{Binding #UIGlobalUserControl.ShortUserName}"/>
+              CommandParameter="{Binding #UIGlobalUserControl.ShortUserName}">
+          <Button.Content>
+              <PathIcon Data="{StaticResource AddCircle}"
+                        Width="45"
+                        Height="45"/>
+          </Button.Content>
+      </Button>
     </Grid>
   </Border>
 </UserControl>
