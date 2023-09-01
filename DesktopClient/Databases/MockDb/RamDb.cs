@@ -96,4 +96,11 @@ public class RamDb : IDatabase
             .Where(selectionPredicate)
             .ToList()!;
     }
+
+    public string RemoveChatHistoryForUserInChat(string chatName, string userName)
+    {
+        var entry = _messages.GetEntryById(userName);
+        entry!.Messages.Remove(chatName);
+        return entry.Id;
+    }
 }

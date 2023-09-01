@@ -36,7 +36,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         _database = database;
         _currentUser = currentUser;
         
-        
         FriendsList.Add(new ListBoxItemCategory("Пользователи в подписках:"));
 
         foreach (var item in _currentUser.Friends)
@@ -69,6 +68,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         UserFriendsCache.Remove((friendToDelete as ListBoxItemUser)!);
         FriendsList.Remove(friendToDelete);
         _currentUser.Friends.Remove(_database.GetUserByUserName(friendUserName)!);
+        _database.RemoveChatHistoryForUserInChat(friendToDelete.InnerData, _currentUser.UserName);
     }
     
     #region FriendsList
@@ -94,6 +94,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         {
             if (value is null 
                 || value.IsCategory
+                || value is ListBoxItemGlobalUser // listboxitems globaluser and user have same styles
                 || value.Equals(SelectedItem))
             {
                 return;
@@ -211,6 +212,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             
             Dispatcher.UIThread.Invoke(() => 
                 FriendsList.AddRange(UserFriendsCache.Cached));
+            
             return;
         }
         
@@ -228,6 +230,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
         Dispatcher.UIThread.Invoke(() =>
         {
+            FriendsList.Clear();
+            
             GlobalUsersCache.ResetPool();
             LinkedList<ListBoxItemBase> friends = new();
             var snapshot = UserFriendsCache.Cached;
@@ -242,11 +246,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                     continue;
                 }
 
-                AddGlobalUserToCache(result[i], i, $"{result[i].FullName} ({result[i].UserName})", result[i].UserName);
+                AddGlobalUserToCache(i, $"{result[i].FullName} ({result[i].UserName})", result[i].UserName);
                 globalsCount++;
             }
-
-            FriendsList.Clear();
             
             if (globalsCount != 0)
             {
@@ -264,7 +266,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
        
     }
 
-    private void AddGlobalUserToCache(UsersDbUserEntry user, int i, string data, string innerData)
+    private void AddGlobalUserToCache(int i, string data, string innerData)
     {
         var command = new RelayCommand<string>(AddFriend!, CanExecuteAddFriend!);
         GlobalUsersCache.SetUser(i, data, innerData, command);
