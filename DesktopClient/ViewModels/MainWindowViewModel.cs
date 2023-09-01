@@ -41,7 +41,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
         foreach (var item in _currentUser.Friends)
         {
-            UserFriendsCache.Add(new ListBoxItemUser($"{item.FullName} ({item.UserName})", item.UserName));
+            var listItem = new ListBoxItemUser($"{item.FullName} ({item.UserName})", item.UserName);
+            UserFriendsCache.Add(listItem, new RelayCommand<string>(DeleteFriend!));
         }
 
         FriendsList.AddRange(UserFriendsCache.Cached);
@@ -60,6 +61,14 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             .Throttle(TimeSpan.FromSeconds(1))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(SearchAsync);
+    }
+    
+    private void DeleteFriend(string friendUserName)
+    {
+        var friendToDelete = FriendsList.First(u => u.InnerData == friendUserName);
+        UserFriendsCache.Remove((friendToDelete as ListBoxItemUser)!);
+        FriendsList.Remove(friendToDelete);
+        _currentUser.Friends.Remove(_database.GetUserByUserName(friendUserName)!);
     }
     
     #region FriendsList
@@ -267,7 +276,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         var user = _database.GetUserByUserName(data);
         _currentUser.Friends.Add(user);
         var listItem = new ListBoxItemUser($"{user.FullName}({user.UserName})", user.UserName);
-        UserFriendsCache.Add(listItem);
+        UserFriendsCache.Add(listItem, new RelayCommand<string>(DeleteFriend!));
         FriendsList.Add(listItem);
         var currentGlobalUser = FriendsList.First(elem => elem.InnerData == user.UserName);
         FriendsList.Remove(currentGlobalUser);

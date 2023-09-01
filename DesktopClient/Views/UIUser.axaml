@@ -29,12 +29,13 @@
             <StackPanel Orientation="Horizontal"
                         Grid.Column="3"
                         HorizontalAlignment="Right">
-                <TextBlock
-                    Text="{Binding #UiUserControl.UnreadMessages,
-                     Converter={StaticResource UnreadCountConverter}}"
-                    Classes="UITextBlock" />
+                <TextBlock Text="{Binding #UiUserControl.UnreadMessages,
+                            Converter={StaticResource UnreadCountConverter}}"
+                           Classes="UITextBlock" />
                 
-                <Button Classes="UIAddFriendButton">
+                <Button Classes="UIAddFriendButton"
+                        Command="{Binding #UiUserControl.DeleteFriendCommand}"
+                        CommandParameter="{Binding #UiUserControl.InnerData}">
                     <Button.Content>
                         <PathIcon Data="{StaticResource RemoveCircle}"
                                   Width="45"

@@ -1,9 +1,11 @@
 using Avalonia;
 using Avalonia.Controls;
+using CommunityToolkit.Mvvm.Input;
+using DesktopClient.Models;
 
 namespace DesktopClient.Views
 {
-    public partial class UIUser : UserControl
+    public partial class UIUser : NotifyPropertyChangedUserControl
     {
         public UIUser()
         {
@@ -14,8 +16,7 @@ namespace DesktopClient.Views
         {
             UserNameTextBlock.Text = userName;
         }
-
-
+        
         #region UnreadMessages
 
         private int _unreadMessages;
@@ -28,6 +29,40 @@ namespace DesktopClient.Views
         {
             get => _unreadMessages;
             set => SetAndRaise(UnreadMessagesProperty, ref _unreadMessages, value);
+        }
+
+        #endregion
+
+        #region InnerData
+
+        private string _innerData = null!;
+
+        public string InnerData
+        {
+            get => _innerData;
+            set
+            {
+                _innerData = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
+        #region DeleteFriendCommand
+
+        private IRelayCommand<string> _deleteFriendCommand;
+
+        public static readonly DirectProperty<UIUser, IRelayCommand<string>> DeleteFriendCommandProperty =
+            AvaloniaProperty.RegisterDirect<UIUser, IRelayCommand<string>>(
+                nameof(DeleteFriendCommand), 
+                o => o.DeleteFriendCommand, 
+                (o, v) => o.DeleteFriendCommand = v);
+
+        public IRelayCommand<string> DeleteFriendCommand
+        {
+            get => _deleteFriendCommand;
+            set => SetAndRaise(DeleteFriendCommandProperty, ref _deleteFriendCommand, value);
         }
 
         #endregion

@@ -4,10 +4,11 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Input;
+using DesktopClient.Models;
 
 namespace DesktopClient.Views;
 
-public partial class UIGlobalUser : UserControl, INotifyPropertyChanged
+public partial class UIGlobalUser : NotifyPropertyChangedUserControl
 {
     public UIGlobalUser()
     {
@@ -17,16 +18,6 @@ public partial class UIGlobalUser : UserControl, INotifyPropertyChanged
     {
         UserNameTextBlock.Text = userName;
     }
-
-    #region  INotifyPropertyChangedImpl
-
-    public new event PropertyChangedEventHandler? PropertyChanged;
-    public void OnPropertyChanged([CallerMemberName]string prop = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-    }
-
-    #endregion
     
     #region AddToFriendCommand
 
@@ -73,7 +64,7 @@ public partial class UIGlobalUser : UserControl, INotifyPropertyChanged
             _longUserName = value;
             OnPropertyChanged();
         }
-}
+    }
     
     #endregion
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Models.ListBox;
 
 namespace DesktopClient.Models.Caching;
@@ -12,8 +13,9 @@ public static class UserFriendsCache
     public static IEnumerable<ListBoxItemUser> Cached =>
         _users;
 
-    public static void Add(ListBoxItemUser user)
+    public static void Add(ListBoxItemUser user, RelayCommand<string> command)
     {
+        user.UpdateFriendsDeletionCommand(command);
         _users.AddLast(user);
     }
 
