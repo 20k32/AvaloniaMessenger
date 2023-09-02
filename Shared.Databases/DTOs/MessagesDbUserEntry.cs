@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-namespace DesktopClient.Databases.DTOs;
+namespace Shared.Databases.DTOs;
 
 public class MessagesDbUserEntry : RepositoryEntry
 {
@@ -9,7 +7,7 @@ public class MessagesDbUserEntry : RepositoryEntry
     public MessagesDbUserEntry(string userName)
     {
         Messages = new();
-        Id = userName;
+        UserName = userName;
     }
 
     public override void CopyValuesTo(RepositoryEntry entry)

@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using DesktopClient.Databases.DTOs;
+using Shared.Databases.DTOs;
 
-namespace DesktopClient.Databases.MockDb.MessagesDB;
+namespace Shared.Databases.MockDb.MessagesDB;
 
 public class MessagesRamDb
 {

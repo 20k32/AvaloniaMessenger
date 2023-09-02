@@ -1,7 +1,7 @@
-using DesktopClient.Databases.MockDb;
 using Microsoft.Extensions.DependencyInjection;
+using Shared.Databases.MockDb;
 
-namespace DesktopClient.Databases;
+namespace Shared.Databases;
 
 public static class DependencyInjection
 {

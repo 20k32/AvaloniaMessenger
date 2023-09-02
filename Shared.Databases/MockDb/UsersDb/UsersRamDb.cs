@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using DesktopClient.Databases.DTOs;
+using Shared.Databases.DTOs;
 
-namespace DesktopClient.Databases.MockDb.UsersDb;
+namespace Shared.Databases.MockDb.UsersDb;
 
 public class UsersRamDb
 {

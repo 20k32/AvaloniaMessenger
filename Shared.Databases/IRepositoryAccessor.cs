@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using DesktopClient.Databases.DTOs;
+using Shared.Databases.DTOs;
 
-namespace DesktopClient.Databases;
+namespace Shared.Databases;
 
 public interface IRepositoryAccessor<T> 
     where T : RepositoryEntry

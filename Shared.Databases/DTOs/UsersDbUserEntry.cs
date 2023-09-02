@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-
-namespace DesktopClient.Databases.DTOs;
+namespace Shared.Databases.DTOs;
 
 public class UsersDbUserEntry : RepositoryEntry
 {

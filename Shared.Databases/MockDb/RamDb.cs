@@ -1,12 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using DesktopClient.Databases.DTOs;
-using DesktopClient.Databases.MockDb.MessagesDB;
-using DesktopClient.Databases.MockDb.UsersDb;
+using Shared.Databases.DTOs;
+using Shared.Databases.MockDb.MessagesDB;
+using Shared.Databases.MockDb.UsersDb;
 
-namespace DesktopClient.Databases.MockDb;
+namespace Shared.Databases.MockDb;
+
+// this is mock database class and it's main task is to test other program logic
+// and show what methods i must implement in future in mongodb database class.
+// i determine to make methods async (in short because i/o ops better to do async)
+
 
 public class RamDb : IDatabase
 {
@@ -19,10 +21,7 @@ public class RamDb : IDatabase
         _users = new();
     }
 
-    public List<MessagesDbMessageEntry?> GetChatForUser(UsersDbUserEntry friend, UsersDbUserEntry? user) =>
-        GetChatForUser(friend.UserName, user.UserName);
-
-    public List<MessagesDbMessageEntry?>? GetChatForUser(string friendId, string userId)
+    public Task<List<MessagesDbMessageEntry>>? GetChatForUserAsync(string friendId, string userId)
     {
         var messageHistory = _messages.GetEntryById(userId);
         
@@ -32,28 +31,27 @@ public class RamDb : IDatabase
         {
             result = value.ToList();
         }
-        return result!;
+        return Task.FromResult(result);
     }
 
-    public UsersDbUserEntry? GetUserByUserName(string userName) =>
-        _users.GetEntryById(userName);
+    public Task<UsersDbUserEntry>? GetUserByUserNameAsync(string userName) =>
+        Task.FromResult(_users.GetEntryById(userName))!;
 
-    public string AddUser(UsersDbUserEntry? user)
+    public void AddUserSync(UsersDbUserEntry? user)
     {
         _users.Add(user);
         var userInMessagesDb = new MessagesDbUserEntry(user!.UserName);
         _messages.Add(userInMessagesDb);
-        return user.Id;
     }
 
-    public string RemoveUser(UsersDbUserEntry? user)
+    public Task AddUserAsync(UsersDbUserEntry user)
     {
-        _users.Remove(user);
-        _messages.Remove(_messages.GetEntryById(user!.UserName));
-        return user.Id;
+        AddUserSync(user);
+        return Task.CompletedTask;
     }
     
-    public string AddMessageToUser(UsersDbUserEntry? user, MessagesDbMessageEntry? message)
+
+    public Task AddMessageToUserAsync(UsersDbUserEntry? user, MessagesDbMessageEntry? message)
     {
         var usersMessageHistory = _messages
             .GetEntryById(user!.UserName)!
@@ -77,10 +75,10 @@ public class RamDb : IDatabase
             }
         }
         
-        return message.Id;
+        return Task.CompletedTask;
     }
 
-    public List<UsersDbUserEntry> GetGlobalUsersByUserNameAndFullName(string options)
+    public Task<IEnumerable<UsersDbUserEntry>>? GetGlobalUsersByUserNameAndFullNameAsync(string options)
     {
         var allUsers = _users.Read();
 
@@ -89,18 +87,29 @@ public class RamDb : IDatabase
             var lowerCaseOptions = options.ToLower();
             
             return u.UserName.ToLower().Contains(lowerCaseOptions)
-                || u.FullName.ToLower().Contains(lowerCaseOptions);
+                   || u.FullName.ToLower().Contains(lowerCaseOptions);
         };
 
-        return allUsers
-            .Where(selectionPredicate)
-            .ToList()!;
+        var result = allUsers
+            .Where(selectionPredicate);
+
+        return Task.FromResult(result)!;
     }
 
-    public string RemoveChatHistoryForUserInChat(string chatName, string userName)
+    public Task RemoveChatHistoryForUserInChatAsync(string chatName, string userName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RemoveUser(UsersDbUserEntry? user)
+    {
+        _users.Remove(user);
+        _messages.Remove(_messages.GetEntryById(user!.UserName));
+    }
+
+    public void RemoveChatHistoryForUserInChat(string chatName, string userName)
     {
         var entry = _messages.GetEntryById(userName);
         entry!.Messages.Remove(chatName);
-        return entry.Id;
     }
 }

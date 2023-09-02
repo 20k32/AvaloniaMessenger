@@ -1,8 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-using DesktopClient.Databases.DTOs;
+using Shared.Databases.DTOs;
 
-namespace DesktopClient.Databases.MockDb.UsersDb;
+namespace Shared.Databases.MockDb.UsersDb;
 
 internal class UsersRamDbAccessor : IRepositoryAccessor<UsersDbUserEntry>
 {

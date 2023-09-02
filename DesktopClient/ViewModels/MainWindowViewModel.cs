@@ -10,8 +10,6 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DesktopClient.Databases;
-using DesktopClient.Databases.DTOs;
 using DesktopClient.Models.Auth;
 using DesktopClient.Models.Caching;
 using DesktopClient.ViewModels;
@@ -21,7 +19,10 @@ using DesktopClient.Views;
 using DynamicData;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualBasic;
+using MongoDB.Driver;
 using ReactiveUI;
+using Shared.Databases;
+using Shared.Databases.DTOs;
 
 namespace DesktopClient.ViewModels;
 

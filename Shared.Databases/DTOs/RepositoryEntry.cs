@@ -1,6 +1,4 @@
-using System;
-
-namespace DesktopClient.Databases.DTOs;
+namespace Shared.Databases.DTOs;
 // в программе будет две базы данных, для поиска пользователей и для подгрузки сообщений этих пользователей
 
 // нужно детально продумать базовый класс для пользователей в двух базах данных
@@ -9,5 +7,6 @@ namespace DesktopClient.Databases.DTOs;
 public abstract class RepositoryEntry
 {
     public string Id { get; protected init; } = null!;
+    public string UserName { get; protected init; } = null!;
     public abstract void CopyValuesTo(RepositoryEntry entry);
 }
