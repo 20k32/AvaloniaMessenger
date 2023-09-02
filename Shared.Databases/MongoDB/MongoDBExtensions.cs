@@ -22,7 +22,7 @@ public static class MongoDbExtensions
     public static IMongoCollection<MessagesDbUserEntry> GetMessagesCollection() =>
         GetCollectionForDocument<MessagesDbUserEntry>(MESSAGES_DOCUMENT_NAME);
 
-    public static IEnumerable<T> GetFirsAvaliableDocument<T>(this IAsyncCursor<T> cursor)
+    public static IEnumerable<T> GetFirstAvaliableDocumentSync<T>(this IAsyncCursor<T> cursor)
     {
         while (cursor.Current == null)
         {

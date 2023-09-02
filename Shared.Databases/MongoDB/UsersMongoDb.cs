@@ -65,6 +65,17 @@ public static class UsersMongoDb
         return GetEntryForDocument(document)!;
     }
 
+    public static UsersDbUserEntry? GetUserByUserNameSync(string userName)
+    {
+        var filter = Builders<UsersDbUserEntry>.Filter.Eq(u => u.UserName, userName);
+
+        var cursor = _users.FindSync(filter);
+
+        var document = cursor.GetFirstAvaliableDocumentSync();
+
+        return GetEntryForDocument(document)!;
+    }
+    
     public static async Task<IEnumerable<UsersDbUserEntry>?> GetUsersByFullName(string fullName)
     {
         var filter = new BsonDocument("FullName", new BsonDocument() { { "$regex", $"{FormatFullName(fullName)}.*" } });
@@ -88,5 +99,25 @@ public static class UsersMongoDb
         var document = await cursor.GetFirstAvaliableDocumentAsync();
 
         return document!;
+    }
+
+    public static void UpdateUserSync(UsersDbUserEntry user)
+    {
+        var filter = Builders<UsersDbUserEntry>.Filter.Eq(e => e.Id, user.Id);
+
+        var updateDefinition = new UpdateDefinitionBuilder<UsersDbUserEntry>()
+            .Set(dbElem => dbElem.Friends, user.Friends);
+        
+        _users.UpdateOne(filter, updateDefinition);
+    }
+
+    public static Task UpdateUserAsync(UsersDbUserEntry user)
+    {
+        var filter = Builders<UsersDbUserEntry>.Filter.Eq(e => e.Id, user.Id);
+
+        var updateDefinition = new UpdateDefinitionBuilder<UsersDbUserEntry>()
+            .Set(dbElem => dbElem.Friends, user.Friends);
+        
+        return _users.UpdateOneAsync(filter, updateDefinition);
     }
 }    

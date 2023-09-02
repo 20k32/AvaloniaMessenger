@@ -5,11 +5,11 @@ using Shared.Databases.MockDb.UsersDb;
 
 namespace Shared.Databases.MockDb;
 
-// this is mock database class and it's main task is to test other program logic
+// this is mock database class and it's main task is to help to test other program logic
 // and show what methods i must implement in future in mongodb database class.
 // i determine to make methods async (in short because i/o ops better to do async)
 
-
+// actually this class is useless for now and i probably delete it later
 public class RamDb : IDatabase
 {
     private static readonly MessageRamDbAccessor _messages;
@@ -36,6 +36,9 @@ public class RamDb : IDatabase
 
     public Task<UsersDbUserEntry>? GetUserByUserNameAsync(string userName) =>
         Task.FromResult(_users.GetEntryById(userName))!;
+
+    public UsersDbUserEntry? GetUserByUserNameSync(string userName) =>
+        _users.GetEntryById(userName);
 
     public void AddUserSync(UsersDbUserEntry? user)
     {
@@ -97,6 +100,16 @@ public class RamDb : IDatabase
     }
 
     public Task RemoveChatHistoryForUserInChatAsync(string chatName, string userName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateUserAsync(UsersDbUserEntry user)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UpdateUserSync(UsersDbUserEntry user)
     {
         throw new NotImplementedException();
     }

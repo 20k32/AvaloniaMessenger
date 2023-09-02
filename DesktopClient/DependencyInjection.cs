@@ -22,19 +22,24 @@ namespace DesktopClient
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainWindowViewModel>();
             
+            //current user of a programm
             var user = new UsersDbUserEntry("@admin", "11111", "Admin");
             
-            services.AddRamDb();
-            var _usersDb = services.BuildServiceProvider().GetRequiredService<IDatabase>();
             
-            // todo: crate users, fill db with start values
+            services.AddMongoDb();
+            var database = services.BuildServiceProvider().GetRequiredService<IDatabase>();
             
-            /*user.Friends.Add(_usersDb.GetUserByUserName("@yegor")!);
-            user.Friends.Add(_usersDb.GetUserByUserName("@bob")!);
-            user.Friends.Add(_usersDb.GetUserByUserName("@alex")!);
+            database.AddUserSync(user);
+            
+            database.AddUserSync(new ("@yegor", "12345", "Yegorchik"));
+            database.AddUserSync(new("@bob", "12345", "Bob"));
+            database.AddUserSync(new("@alex", "12345", "Alex"));
+            
+            user.Friends.Add(database.GetUserByUserNameSync("@yegor")!);
+            user.Friends.Add(database.GetUserByUserNameSync("@bob")!);
+            user.Friends.Add(database.GetUserByUserNameSync("@alex")!);
 
-            _usersDb.AddUser(user);*/
-            
+
             services.AddSingleton(user);
             return services.BuildServiceProvider();
         }

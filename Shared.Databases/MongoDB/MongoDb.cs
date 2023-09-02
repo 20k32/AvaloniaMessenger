@@ -1,15 +1,16 @@
 using Shared.Databases.DTOs;
 
 namespace Shared.Databases.MongoDB;
-
 internal class MongoDb : IDatabase
 {
-
     public Task<List<MessagesDbMessageEntry?>?> GetChatForUserAsync(string friendName, string userName) =>
         MessagesMongoDb.GetChatForUser(friendName, userName)!;
     
     public Task<UsersDbUserEntry?> GetUserByUserNameAsync(string userName) =>
         UsersMongoDb.GetUserByUserName(userName);
+
+    public UsersDbUserEntry? GetUserByUserNameSync(string userName) =>
+        UsersMongoDb.GetUserByUserNameSync(userName);
 
     public void AddUserSync(UsersDbUserEntry? user) =>
         UsersMongoDb.AddUserSync(user!);
@@ -33,4 +34,10 @@ internal class MongoDb : IDatabase
 
     public Task RemoveChatHistoryForUserInChatAsync(string chatName, string userName) =>
         MessagesMongoDb.RemoveUserHistoryForUser(userName, chatName);
+
+    public Task UpdateUserAsync(UsersDbUserEntry user) =>
+        UsersMongoDb.UpdateUserAsync(user);
+
+    public void UpdateUserSync(UsersDbUserEntry user) =>
+        UsersMongoDb.UpdateUserSync(user);
 }

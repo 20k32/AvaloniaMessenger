@@ -2,7 +2,6 @@ namespace Shared.Databases.DTOs;
 
 public class UsersDbUserEntry : RepositoryEntry
 {
-    public string UserName;
     public string Password;
     public string FullName;
     
@@ -16,8 +15,7 @@ public class UsersDbUserEntry : RepositoryEntry
         {
             return;
         }
-
-        userEntry.UserName = UserName;
+        
         userEntry.FullName = FullName;
         userEntry.Password = Password;
         
