@@ -14,13 +14,8 @@ public class UsersRamDb
         var bob = new UsersDbUserEntry("@bob", "13245", "Bobby");
         var alex = new UsersDbUserEntry("@alex", "23456", "Alex");
         
-        yegorchik.Friends.Add(bob);
-        yegorchik.Friends.Add(alex);
-        
-        bob.Friends.Add(yegorchik);
-        
-        alex.Friends.Add(yegorchik);
-        alex.Friends.Add(bob);
+        yegorchik.Friends.Add(new(bob.FullName, bob.UserName));
+        yegorchik.Friends.Add(new(alex.FullName, alex.UserName));
         
         Data.AddLast(yegorchik);
         Data.AddLast(bob);

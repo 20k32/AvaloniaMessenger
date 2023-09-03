@@ -31,12 +31,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     private string? _currentChatName = null!;
     private readonly IDatabase _database;
     private readonly UsersDbUserEntry _currentUser;
-    
+
     public MainWindowViewModel(IDatabase database, UsersDbUserEntry currentUser)
     {
         _database = database;
         _currentUser = currentUser;
-        
+
         FriendsList.Add(new ListBoxItemCategory("Пользователи в подписках:"));
 
         foreach (var item in _currentUser.Friends)
@@ -46,23 +46,18 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         }
 
         FriendsList.AddRange(UserFriendsCache.Cached);
-        
-        /*_database.AddMessageToUser(_currentUser,
-            new MessagesDbMessageEntry(false,
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "@yegor"));
-        
-        _database.AddMessageToUser(_currentUser,
-            new MessagesDbMessageEntry(true,
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "@yegor"));*/
 
         this.WhenAnyValue(x => x.SearchText)
             .Throttle(TimeSpan.FromSeconds(1))
             .ObserveOn(RxApp.MainThreadScheduler)
             .Subscribe(SearchAsync);
     }
-    
+
+    private void FromMainThread(Action method)
+    {
+        Dispatcher.UIThread.Invoke(method);
+    }
+
     private void DeleteFriend(string friendUserName)
     {
         /*var friendToDelete = FriendsList.First(u => u.InnerData == friendUserName);
@@ -71,7 +66,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         _currentUser.Friends.Remove(_database.GetUserByUserName(friendUserName)!);
         _database.RemoveChatHistoryForUserInChat(friendToDelete.InnerData, _currentUser.UserName);*/
     }
-    
+
     #region FriendsList
 
     private ObservableCollection<ListBoxItemBase> _friendsList = new();
@@ -83,9 +78,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     }
 
     #endregion
-    
+
     #region SelectedFriend
-    
+
     private ListBoxItemBase? _selectedFriend = null!;
 
     public ListBoxItemBase? SelectedItem
@@ -93,18 +88,18 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         get => _selectedFriend;
         set
         {
-            if (value is null 
+            if (value is null
                 || value.IsCategory
-                || value is ListBoxItemGlobalUser // listboxitems globaluser and user have same styles
+                || value is ListBoxItemGlobalUser
                 || value.Equals(SelectedItem))
             {
                 return;
             }
-            
+
             SetProperty(ref _selectedFriend, value);
-            LoadHistoryFor(_selectedFriend.InnerData);
             NotifySendCommandCanExecuteChanged(_selectedFriend.InnerData);
             ChatView.SetFocusToFocusableElement();
+            LoadHistoryFor(_selectedFriend.InnerData);
         }
     }
 
@@ -114,33 +109,37 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         _currentChatName = data;
         SendMessageCommand.NotifyCanExecuteChanged();
     }
-    
-    private void LoadHistoryFor(string chatName)
+
+    private async Task LoadHistoryFor(string chatName)
     {
-        /*if (SelectedItem is ListBoxItemUser user)
+        if (SelectedItem is ListBoxItemUser user)
         {
             user.ResetUnreadMessageCount();
         }
-        
-        var currentUserMessageHistory = _database.GetChatForUser(chatName, _currentUser.UserName);
-            
-        CurrentChatHistory.Clear();
+
+        var currentUserMessageHistory =
+            await _database.GetChatForUserAsync(chatName, _currentUser.UserName);
+
+        FromMainThread(CurrentChatHistory.Clear);
 
         if (currentUserMessageHistory == null)
         {
             return;
         }
-        
+
         foreach (var item in currentUserMessageHistory)
         {
-            CurrentChatHistory.Add(new ChatMessage(item!.Data, item!.IsYours));
-        }*/
+            FromMainThread(() =>
+                CurrentChatHistory.Add(new ChatMessage(item!.Data, item!.IsYours)));
+        }
     }
+
     #endregion
 
     #region CurrentChatHistory
 
     private ObservableCollection<ChatMessage> _currentChatHistory = new();
+
     public ObservableCollection<ChatMessage> CurrentChatHistory
     {
         get => _currentChatHistory;
@@ -160,24 +159,28 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         {
             SetProperty(ref _messageData, value);
             SendMessageCommand.NotifyCanExecuteChanged();
-        } 
+        }
     }
-    
+
     #endregion
 
     #region SendMessageCommand
 
     [RelayCommand(CanExecute = nameof(SendMessageCanExecute))]
-    private void SendMessage(string text)
+    private async Task SendMessage(string text)
     {
-        /*_database.AddMessageToUser(_currentUser, new MessagesDbMessageEntry(true, MessageData, _currentChatName!));
+        await _database.AddMessageToUserAsync(_currentUser,
+            new MessagesDbMessageEntry(true, MessageData, _currentChatName!));
+
         _currentChatHistory.Add(new ChatMessage(MessageData, true));
+
         if (SelectedItem is ListBoxItemUser user)
         {
             user.UpdateUnreadMessageCount(1);
         }
+
         MessageData = string.Empty;
-        ChatView.SetFocusToFocusableElement();*/
+        ChatView.SetFocusToFocusableElement();
     }
 
     private bool SendMessageCanExecute(string text) =>
@@ -185,8 +188,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         && !(string.IsNullOrEmpty(_currentChatName));
 
     #endregion
-    
-    #region  SearchText
+
+    #region SearchText
 
     private string _searchText = null!;
 
@@ -197,12 +200,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     }
 
     #endregion
-    
+
     #region SearchAsync
 
     private async void SearchAsync(string? text)
     {
-        /*if (text == null)
+        if (text == null)
         {
             return;
         }
@@ -210,47 +213,51 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         if (text == string.Empty)
         {
             FriendsList.Clear();
-            
-            Dispatcher.UIThread.Invoke(() => 
+
+            Dispatcher.UIThread.Invoke(() =>
                 FriendsList.AddRange(UserFriendsCache.Cached));
-            
+
             return;
         }
-        
+
         if (FriendsList.Count != 0)
         {
             FriendsList.Clear();
         }
 
-        Dispatcher.UIThread.Invoke(() => 
-            FriendsList.Add(new ListBoxItemCategory("Проводим поиско по базе...")));
-        
-        var result = _database.GetGlobalUsersByUserNameAndFullName(text);
-        
-        await Task.Delay(1000);
-
         Dispatcher.UIThread.Invoke(() =>
+            FriendsList.Add(new ListBoxItemCategory("Проводим поиско по базе...")));
+
+        var result =
+            await _database.GetGlobalUsersByUserNameAndFullNameAsync(text);
+
+
+        FromMainThread(() =>
         {
+            var resultSnapshot = result!.ToArray();
+
             FriendsList.Clear();
-            
+
             GlobalUsersCache.ResetPool();
             LinkedList<ListBoxItemBase> friends = new();
             var snapshot = UserFriendsCache.Cached;
             int globalsCount = default;
-            
-            for (int i = 0; i < result.Count; i++)
+
+            for (int i = 0; i < resultSnapshot.Length; i++)
             {
-                if (_currentUser.Friends.Contains(result[i]))
+                if (_currentUser.Friends.OptimizedContains(resultSnapshot[i].UserName))
                 {
-                    var elem = snapshot.First(snapshotElem => snapshotElem.InnerData == result[i].UserName);
+                    var elem = snapshot.First(snapshotElem => snapshotElem.InnerData == 
+                                                              resultSnapshot[i].UserName);
                     friends.AddLast(elem);
                     continue;
                 }
 
-                AddGlobalUserToCache(i, $"{result[i].FullName} ({result[i].UserName})", result[i].UserName);
+                AddGlobalUserToCache(i, $"{resultSnapshot[i].FullName} ({resultSnapshot[i].UserName})",
+                    resultSnapshot[i].UserName);
                 globalsCount++;
             }
-            
+
             if (globalsCount != 0)
             {
                 FriendsList.Add(new ListBoxItemCategory("Пользователи глобально:"));
@@ -262,9 +269,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                 FriendsList.Add(new ListBoxItemCategory("Друзья:"));
                 FriendsList.AddRange(friends.AsEnumerable());
             }
-            
-        });*/
-       
+        });
     }
 
     private void AddGlobalUserToCache(int i, string data, string innerData)
@@ -272,7 +277,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         var command = new RelayCommand<string>(AddFriend!, CanExecuteAddFriend!);
         GlobalUsersCache.SetUser(i, data, innerData, command);
     }
-    
+
     [RelayCommand(CanExecute = nameof(CanExecuteAddFriend))]
     private void AddFriend(string data)
     {
@@ -292,5 +297,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                !_currentUser.Friends.Contains(user);*/
         return false;
     }
+
     #endregion
 }

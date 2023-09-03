@@ -1,26 +1,35 @@
 using Shared.Databases.DTOs;
 
 namespace Shared.Databases.MongoDB;
+
 internal class MongoDb : IDatabase
 {
     public Task<List<MessagesDbMessageEntry?>?> GetChatForUserAsync(string friendName, string userName) =>
         MessagesMongoDb.GetChatForUser(friendName, userName)!;
-    
+
     public Task<UsersDbUserEntry?> GetUserByUserNameAsync(string userName) =>
         UsersMongoDb.GetUserByUserName(userName);
 
     public UsersDbUserEntry? GetUserByUserNameSync(string userName) =>
         UsersMongoDb.GetUserByUserNameSync(userName);
 
-    public void AddUserSync(UsersDbUserEntry? user) =>
+    public void AddUserSync(UsersDbUserEntry? user)
+    {
         UsersMongoDb.AddUserSync(user!);
+        MessagesMongoDb.AddUserSync(new(user.UserName));
+    }
 
-    public Task AddUserAsync(UsersDbUserEntry? user) =>
-        UsersMongoDb.AddUser(user!);
+public Task AddUserAsync(UsersDbUserEntry? user)
+    {
+        var addUserToUserDbTask = UsersMongoDb.AddUser(user!);
+        var addUsersMessageHistory = MessagesMongoDb.AddUser(new(user!.UserName));
+
+        return Task.WhenAll(addUserToUserDbTask, addUsersMessageHistory);
+    }
     
     public Task AddMessageToUserAsync(UsersDbUserEntry? user, MessagesDbMessageEntry? message) =>
         MessagesMongoDb.AddMessageToUser(user!, message!);
-    
+
     public async Task<IEnumerable<UsersDbUserEntry?>?> GetGlobalUsersByUserNameAndFullNameAsync(string userNameOrFullName)
     {
         var usersByFullName = await UsersMongoDb.GetUsersByFullName(userNameOrFullName)

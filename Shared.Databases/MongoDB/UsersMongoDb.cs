@@ -27,7 +27,7 @@ public static class UsersMongoDb
         return currentUser;
     }
 
-    public static async Task<IList<UsersDbUserEntry>?> GetFriendsForUser(UsersDbUserEntry user)
+    public static async Task<IList<FriendDbEntry>?> GetFriendsForUser(UsersDbUserEntry user)
     {
         var filter = Builders<UsersDbUserEntry>.Filter.Eq(u => u.Id, user.Id);
 

@@ -2,12 +2,12 @@ namespace Shared.Databases.DTOs;
 
 public class MessagesDbUserEntry : RepositoryEntry
 {
-    // key - пользователь в друзьях, value - чат с пользователем
-    public readonly Dictionary<string, IList<MessagesDbMessageEntry>> Messages;
+    public Dictionary<string, List<MessagesDbMessageEntry>> Messages;
     public MessagesDbUserEntry(string userName)
     {
         Messages = new();
         UserName = userName;
+        Id = Guid.NewGuid().ToString();
     }
 
     public override void CopyValuesTo(RepositoryEntry entry)

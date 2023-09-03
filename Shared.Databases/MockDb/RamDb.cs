@@ -81,6 +81,11 @@ public class RamDb : IDatabase
         return Task.CompletedTask;
     }
 
+    public void AddMessageToUserSync(UsersDbUserEntry? user, MessagesDbMessageEntry? message)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<IEnumerable<UsersDbUserEntry>>? GetGlobalUsersByUserNameAndFullNameAsync(string options)
     {
         var allUsers = _users.Read();

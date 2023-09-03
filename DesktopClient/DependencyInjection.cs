@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using DesktopClient.Models.Auth;
 using DesktopClient.Views;
 using DesktopClient.Models.Auth;
+using DynamicData;
 using Shared.Databases;
 using Shared.Databases.DTOs;
 
@@ -22,25 +23,27 @@ namespace DesktopClient
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainWindowViewModel>();
             
-            //current user of a programm
-            var user = new UsersDbUserEntry("@admin", "11111", "Admin");
-            
-            
             services.AddMongoDb();
+
+            /*var bob = new UsersDbUserEntry("@bob", "12345", "Bobby");
+            var yegor = new UsersDbUserEntry("@yegor", "12345", "Yegor");
+            var alex = new UsersDbUserEntry("@alex", "12345", "Alex");
+            var admin = new UsersDbUserEntry("@admin", "12345", "Admin");
+            
+            admin.Friends.Add(bob);
+            admin.Friends.Add(yegor);*/
+            
             var database = services.BuildServiceProvider().GetRequiredService<IDatabase>();
             
-            database.AddUserSync(user);
+            /*database.AddUserSync(bob);
+            database.AddUserSync(yegor);
+            database.AddUserSync(alex);
+            database.AddUserSync(admin);*/
             
-            database.AddUserSync(new ("@yegor", "12345", "Yegorchik"));
-            database.AddUserSync(new("@bob", "12345", "Bob"));
-            database.AddUserSync(new("@alex", "12345", "Alex"));
+            var user = database.GetUserByUserNameSync("@admin");
             
-            user.Friends.Add(database.GetUserByUserNameSync("@yegor")!);
-            user.Friends.Add(database.GetUserByUserNameSync("@bob")!);
-            user.Friends.Add(database.GetUserByUserNameSync("@alex")!);
-
-
-            services.AddSingleton(user);
+            services.AddSingleton(user!);
+            
             return services.BuildServiceProvider();
         }
     }

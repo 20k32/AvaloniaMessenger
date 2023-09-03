@@ -28,6 +28,10 @@ internal static class MessagesMongoDb
         return _messages.InsertOneAsync(user);
     }
 
+    public static void AddUserSync(MessagesDbUserEntry user)
+    {
+        _messages.InsertOne(user);
+    }
     public static Task RemoveUser(MessagesDbUserEntry user)
     {
         var filter = Builders<MessagesDbUserEntry>.Filter.Eq(e => e.Id, user.Id);
@@ -71,7 +75,7 @@ internal static class MessagesMongoDb
             return;
         }
 
-        if (userMessages.Messages.TryGetValue(user.UserName, out var messages))
+        if (userMessages.Messages.TryGetValue(message.ChatName, out var messages))
         {
             messages.Add(message);
         }
