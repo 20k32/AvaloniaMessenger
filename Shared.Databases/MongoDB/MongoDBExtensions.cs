@@ -22,7 +22,7 @@ public static class MongoDbExtensions
     public static IMongoCollection<MessagesDbUserEntry> GetMessagesCollection() =>
         GetCollectionForDocument<MessagesDbUserEntry>(MESSAGES_DOCUMENT_NAME);
 
-    public static IEnumerable<T> GetFirstAvaliableDocumentSync<T>(this IAsyncCursor<T> cursor)
+    public static IEnumerable<T> GetFirstAvailableDocumentSync<T>(this IAsyncCursor<T> cursor)
     {
         while (cursor.Current == null)
         {
@@ -32,7 +32,7 @@ public static class MongoDbExtensions
         return cursor.Current;
     }
 
-    public static async Task<IEnumerable<T?>> GetFirstAvaliableDocumentAsync<T>(this IAsyncCursor<T?> cursor, CancellationToken cts = default)
+    public static async Task<IEnumerable<T?>> GetFirstAvailableDocumentAsync<T>(this IAsyncCursor<T?> cursor, CancellationToken cts = default)
     {
         while (cursor.Current == null)
         {

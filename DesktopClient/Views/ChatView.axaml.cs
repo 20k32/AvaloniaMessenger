@@ -15,7 +15,7 @@ namespace DesktopClient.Views
 {
     public sealed partial class ChatView : UserControl
     {
-        private static Control FocusableElement = null!;
+        private static Control _focusableElement = null!;
         private const string FOCUSABLE_ELEMENT_NAME = "FOCUSABLE_ELEMENT";
         
         #region Messages
@@ -38,33 +38,33 @@ namespace DesktopClient.Views
 
         #region SendMessageCommand
 
-        private IRelayCommand<string> _sendMessgeCommand;
+        private IRelayCommand<string>? _sendMessageCommand;
 
-        public static readonly DirectProperty<ChatView, IRelayCommand<string>> SendMessageCommandProperty = 
-            AvaloniaProperty.RegisterDirect<ChatView, IRelayCommand<string>>(
+        public static readonly DirectProperty<ChatView, IRelayCommand<string>?> SendMessageCommandProperty = 
+            AvaloniaProperty.RegisterDirect<ChatView, IRelayCommand<string>?>(
                 nameof(SendMessageCommand),
                 getter => getter.SendMessageCommand,
                 (setter, value) => setter.SendMessageCommand = value);
 
-        public IRelayCommand<string> SendMessageCommand
+        public IRelayCommand<string>? SendMessageCommand
         {
-            get => _sendMessgeCommand;
-            set => SetAndRaise(SendMessageCommandProperty, ref _sendMessgeCommand, value);
+            get => _sendMessageCommand;
+            set => SetAndRaise(SendMessageCommandProperty, ref _sendMessageCommand, value);
         }
 
         #endregion
 
         #region SendMessageCommandParameter
 
-        private string _sendMessageCommandParameter;
+        private string? _sendMessageCommandParameter;
 
-        public static readonly DirectProperty<ChatView, string> SendMessageCommandParameterProperty =
-            AvaloniaProperty.RegisterDirect<ChatView, string>(
+        public static readonly DirectProperty<ChatView, string?> SendMessageCommandParameterProperty =
+            AvaloniaProperty.RegisterDirect<ChatView, string?>(
                 nameof(SendMessageCommandParameter), 
                 o => o.SendMessageCommandParameter, 
                 (o, v) => o.SendMessageCommandParameter = v);
 
-        public string SendMessageCommandParameter
+        public string? SendMessageCommandParameter
         {
             get => _sendMessageCommandParameter;
             set => SetAndRaise(SendMessageCommandParameterProperty, ref _sendMessageCommandParameter, value);
@@ -93,12 +93,12 @@ namespace DesktopClient.Views
         public ChatView()
         {
             InitializeComponent();
-            FocusableElement = this.FindControl<TextBox>(FOCUSABLE_ELEMENT_NAME)!;
+            _focusableElement = this.FindControl<Control>(FOCUSABLE_ELEMENT_NAME)!;
         }
 
         public static void SetFocusToFocusableElement()
         {
-            FocusableElement.Focus();
+            _focusableElement.Focus();
         }
     }
     

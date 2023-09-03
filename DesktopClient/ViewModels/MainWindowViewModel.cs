@@ -10,6 +10,7 @@ using Avalonia.Controls;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DesktopClient.Models;
 using DesktopClient.Models.Auth;
 using DesktopClient.Models.Caching;
 using DesktopClient.ViewModels;
@@ -31,7 +32,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     private string? _currentChatName = null!;
     private readonly IDatabase _database;
     private readonly UsersDbUserEntry _currentUser;
-
+    
     public MainWindowViewModel(IDatabase database, UsersDbUserEntry currentUser)
     {
         _database = database;
@@ -58,13 +59,15 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         Dispatcher.UIThread.Invoke(method);
     }
 
-    private void DeleteFriend(string friendUserName)
+    private async void DeleteFriend(string friendUserName)
     {
-        /*var friendToDelete = FriendsList.First(u => u.InnerData == friendUserName);
+        var friendToDelete = FriendsList.First(u => u.InnerData == friendUserName);
         UserFriendsCache.Remove((friendToDelete as ListBoxItemUser)!);
         FriendsList.Remove(friendToDelete);
-        _currentUser.Friends.Remove(_database.GetUserByUserName(friendUserName)!);
-        _database.RemoveChatHistoryForUserInChat(friendToDelete.InnerData, _currentUser.UserName);*/
+        var friend = _currentUser.Friends.First(f => f.UserName == friendUserName);
+        _currentUser.Friends.Remove(friend);
+        await _database.RemoveChatHistoryForUserInChatAsync(friendToDelete.InnerData, _currentUser.UserName);
+        await _database.UpdateUserAsync(_currentUser);
     }
 
     #region FriendsList
@@ -99,7 +102,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             SetProperty(ref _selectedFriend, value);
             NotifySendCommandCanExecuteChanged(_selectedFriend.InnerData);
             ChatView.SetFocusToFocusableElement();
-            LoadHistoryFor(_selectedFriend.InnerData);
+            LoadHistoryFor(_selectedFriend.InnerData)
+                .DisableAwaitWarning();
         }
     }
 
@@ -245,7 +249,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
             for (int i = 0; i < resultSnapshot.Length; i++)
             {
-                if (_currentUser.Friends.OptimizedContains(resultSnapshot[i].UserName))
+                if (resultSnapshot[i] is null)
+                {
+                    continue;
+                }
+                
+                if (_currentUser.Friends.OptimizedContains(resultSnapshot[i]!.UserName))
                 {
                     var elem = snapshot.First(snapshotElem => snapshotElem.InnerData == 
                                                               resultSnapshot[i].UserName);
@@ -253,8 +262,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                     continue;
                 }
 
-                AddGlobalUserToCache(i, $"{resultSnapshot[i].FullName} ({resultSnapshot[i].UserName})",
-                    resultSnapshot[i].UserName);
+                AddGlobalUserToCache(i, $"{resultSnapshot[i]!.FullName} ({resultSnapshot[i]!.UserName})",
+                    resultSnapshot[i]!.UserName);
                 globalsCount++;
             }
 
@@ -279,23 +288,29 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteAddFriend))]
-    private void AddFriend(string data)
+    private async void AddFriend(string data)
     {
-        /*var user = _database.GetUserByUserName(data);
+        var user = await _database.GetUserByUserNameAsync(data);
         _currentUser.Friends.Add(user);
         var listItem = new ListBoxItemUser($"{user.FullName}({user.UserName})", user.UserName);
         UserFriendsCache.Add(listItem, new RelayCommand<string>(DeleteFriend!));
         FriendsList.Add(listItem);
-        var currentGlobalUser = FriendsList.First(elem => elem.InnerData == user.UserName);
-        FriendsList.Remove(currentGlobalUser);*/
+        await _database.UpdateUserAsync(_currentUser);
+        UpdateUi(user);
     }
 
+    private void UpdateUi(UsersDbUserEntry user)
+    {
+        var currentGlobalUser = FriendsList.First(elem => elem.InnerData == user.UserName);
+        FriendsList.Remove(currentGlobalUser);
+    }
+
+    // can't make this async (bullshit)
     private bool CanExecuteAddFriend(string data)
     {
-        /*var user = _database.GetUserByUserName(data);
+        var user = _database.GetUserByUserNameSync(data);
         return user is not null &&
-               !_currentUser.Friends.Contains(user);*/
-        return false;
+               !_currentUser.Friends.OptimizedContains(data);
     }
 
     #endregion

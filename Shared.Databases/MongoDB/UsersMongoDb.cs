@@ -33,7 +33,7 @@ public static class UsersMongoDb
 
         var cursor = await _users.FindAsync(filter);
 
-        var document = await cursor.GetFirstAvaliableDocumentAsync();
+        var document = await cursor.GetFirstAvailableDocumentAsync();
 
         var entry = GetEntryForDocument(document);
 
@@ -60,7 +60,7 @@ public static class UsersMongoDb
 
         var cursor = await _users.FindAsync(filter);
 
-        var document = await cursor.GetFirstAvaliableDocumentAsync();
+        var document = await cursor.GetFirstAvailableDocumentAsync();
 
         return GetEntryForDocument(document)!;
     }
@@ -71,7 +71,7 @@ public static class UsersMongoDb
 
         var cursor = _users.FindSync(filter);
 
-        var document = cursor.GetFirstAvaliableDocumentSync();
+        var document = cursor.GetFirstAvailableDocumentSync();
 
         return GetEntryForDocument(document)!;
     }
@@ -82,7 +82,7 @@ public static class UsersMongoDb
 
         var cursor = await _users.FindAsync(filter);
 
-        var document = await cursor.GetFirstAvaliableDocumentAsync();
+        var document = await cursor.GetFirstAvailableDocumentAsync();
 
         return document!;
     }
@@ -96,7 +96,7 @@ public static class UsersMongoDb
 
         var cursor = await _users.FindAsync(filter);
 
-        var document = await cursor.GetFirstAvaliableDocumentAsync();
+        var document = await cursor.GetFirstAvailableDocumentAsync();
 
         return document!;
     }

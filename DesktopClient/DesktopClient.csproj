@@ -83,10 +83,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Databases\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Shared.Databases\Shared.Databases.csproj" />
   </ItemGroup>
 </Project>

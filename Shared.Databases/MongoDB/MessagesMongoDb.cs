@@ -18,7 +18,7 @@ internal static class MessagesMongoDb
 
         var cursor = await _messages.FindAsync(filter);
 
-        var document = await cursor.GetFirstAvaliableDocumentAsync();
+        var document = await cursor.GetFirstAvailableDocumentAsync();
 
         return document.FirstOrDefault();
     }
@@ -52,7 +52,7 @@ internal static class MessagesMongoDb
     {
         var filter = Builders<MessagesDbUserEntry>.Filter.Eq(u => u.UserName, userName);
         var cursor = await _messages.FindAsync(filter);
-        var userMessage = await cursor.GetFirstAvaliableDocumentAsync();
+        var userMessage = await cursor.GetFirstAvailableDocumentAsync();
         var user = userMessage.FirstOrDefault();
         if (user is not null)
         {
@@ -66,7 +66,7 @@ internal static class MessagesMongoDb
         var filter = Builders<MessagesDbUserEntry>.Filter.Eq(u => u.UserName, user.UserName);
         var cursor = await _messages.FindAsync(filter);
 
-        var document = await cursor.GetFirstAvaliableDocumentAsync();
+        var document = await cursor.GetFirstAvailableDocumentAsync();
 
         var userMessages = document.FirstOrDefault();
 
@@ -96,7 +96,7 @@ internal static class MessagesMongoDb
         var filter = Builders<MessagesDbUserEntry>.Filter.Eq(u => u.UserName, userName);
         var cursor = await _messages.FindAsync(filter);
 
-        var document = await cursor.GetFirstAvaliableDocumentAsync();
+        var document = await cursor.GetFirstAvailableDocumentAsync();
 
         var user = document.FirstOrDefault();
 
