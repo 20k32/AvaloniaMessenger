@@ -1,43 +1,57 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Reactive.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Models;
 using DesktopClient.Models.Auth;
 using DesktopClient.Models.Caching;
-using DesktopClient.ViewModels;
 using DesktopClient.Models.ListBox;
 using DesktopClient.Models.Messages;
 using DesktopClient.Views;
 using DynamicData;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.VisualBasic;
-using MongoDB.Driver;
 using ReactiveUI;
 using Shared.Databases;
 using Shared.Databases.DTOs;
+
+#endregion
 
 namespace DesktopClient.ViewModels;
 
 public sealed partial class MainWindowViewModel : ViewModelBase
 {
+    public Window MainWindow; 
+    
     private string? _currentChatName = null!;
     private readonly IDatabase _database;
-    private readonly UsersDbUserEntry _currentUser;
+    private UsersDbUserEntry _currentUser;
+    private readonly AuthorizationControllerAccessor _accessor;
     
-    public MainWindowViewModel(IDatabase database, UsersDbUserEntry currentUser)
+    public MainWindowViewModel(IDatabase database, AuthorizationControllerAccessor accessor)
     {
         _database = database;
-        _currentUser = currentUser;
 
+        //LadFriends();
+
+        this.WhenAnyValue(x => x.SearchText)
+            .Throttle(TimeSpan.FromSeconds(1))
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Subscribe(SearchAsync);
+
+        _accessor = accessor;
+    }
+
+    private void LoadFriends()
+    {
+        UserFriendsCache.Clear();
+        
+        
         FriendsList.Add(new ListBoxItemCategory("Пользователи в подписках:"));
 
         foreach (var item in _currentUser.Friends)
@@ -45,15 +59,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             var listItem = new ListBoxItemUser($"{item.FullName} ({item.UserName})", item.UserName);
             UserFriendsCache.Add(listItem, new RelayCommand<string>(DeleteFriend!));
         }
-
+        
         FriendsList.AddRange(UserFriendsCache.Cached);
-
-        this.WhenAnyValue(x => x.SearchText)
-            .Throttle(TimeSpan.FromSeconds(1))
-            .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(SearchAsync);
     }
-
     private void FromMainThread(Action method)
     {
         Dispatcher.UIThread.Invoke(method);
@@ -106,7 +114,6 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                 .DisableAwaitWarning();
         }
     }
-
 
     private void NotifySendCommandCanExecuteChanged(string data)
     {
@@ -218,7 +225,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         {
             FriendsList.Clear();
 
-            Dispatcher.UIThread.Invoke(() =>
+            FromMainThread(() =>
                 FriendsList.AddRange(UserFriendsCache.Cached));
 
             return;
@@ -229,12 +236,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             FriendsList.Clear();
         }
 
-        Dispatcher.UIThread.Invoke(() =>
-            FriendsList.Add(new ListBoxItemCategory("Проводим поиско по базе...")));
+        FromMainThread(() =>
+            FriendsList.Add(new ListBoxItemCategory("Проводим поиск по базе...")));
 
         var result =
             await _database.GetGlobalUsersByUserNameAndFullNameAsync(text);
-
 
         FromMainThread(() =>
         {
@@ -291,8 +297,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     private async void AddFriend(string data)
     {
         var user = await _database.GetUserByUserNameAsync(data);
-        _currentUser.Friends.Add(user);
-        var listItem = new ListBoxItemUser($"{user.FullName}({user.UserName})", user.UserName);
+        _currentUser.Friends.Add(user!);
+        var listItem = new ListBoxItemUser($"{user!.FullName}({user.UserName})", user.UserName);
         UserFriendsCache.Add(listItem, new RelayCommand<string>(DeleteFriend!));
         FriendsList.Add(listItem);
         await _database.UpdateUserAsync(_currentUser);
@@ -313,5 +319,18 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                !_currentUser.Friends.OptimizedContains(data);
     }
 
+    #endregion
+    
+    #region Authorization
+
+    [RelayCommand]
+    private async Task OpenAuthDialogWindow()
+    {
+        var window = new LoginWindow(_accessor);
+        var user = await window.ShowDialog<UsersDbUserEntry?>(MainWindow);
+        _currentUser = user!;
+        LoadFriends();
+    }
+    
     #endregion
 }

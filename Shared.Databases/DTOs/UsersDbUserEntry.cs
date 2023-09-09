@@ -1,11 +1,12 @@
+using System.Text.Json.Serialization;
+
 namespace Shared.Databases.DTOs;
 
 public class UsersDbUserEntry : RepositoryEntry
 {
-    public string Password;
-    public string FullName;
-    
-    public List<FriendDbEntry> Friends;
+    public string Password { get; set; }
+    public string FullName { get; set; }
+    public List<FriendDbEntry> Friends { get; set; }
     public UsersDbUserEntry(string userName, string password, string fullName) : base() =>
         (UserName, Password, FullName, Friends, Id) = (userName, password, fullName, new(), Guid.NewGuid().ToString());
 
@@ -15,7 +16,8 @@ public class UsersDbUserEntry : RepositoryEntry
         {
             return;
         }
-        
+
+        userEntry.Id = Id;
         userEntry.FullName = FullName;
         userEntry.Password = Password;
         

@@ -1,6 +1,10 @@
+#region
+
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Avalonia.Controls;
+
+#endregion
 
 namespace DesktopClient.Models;
 

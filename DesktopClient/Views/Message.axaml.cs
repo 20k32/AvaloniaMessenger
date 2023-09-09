@@ -1,15 +1,16 @@
+#region
+
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Shapes;
-using Avalonia.Media;
-using Avalonia.VisualTree;
-using DesktopClient.Models.Drawing;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using Avalonia.Layout;
 using Avalonia.LogicalTree;
+using Avalonia.Media;
+using DesktopClient.Models.Drawing;
+
+#endregion
 
 namespace DesktopClient.Views
 {

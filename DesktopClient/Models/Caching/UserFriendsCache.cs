@@ -1,7 +1,10 @@
+#region
+
 using System.Collections.Generic;
-using System.Linq;
 using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Models.ListBox;
+
+#endregion
 
 namespace DesktopClient.Models.Caching;
 
@@ -23,4 +26,7 @@ public static class UserFriendsCache
     {
         _users.Remove(user);
     }
+
+    public static void Clear() =>
+        _users.Clear();
 }

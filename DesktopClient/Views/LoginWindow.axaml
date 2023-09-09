@@ -1,0 +1,33 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="DesktopClient.Views.LoginWindow"
+        Title="LoginWindow"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        SizeToContent="WidthAndHeight"
+        FontFamily="{StaticResource NunitoFont}"
+        FontSize="18">
+    <StackPanel Orientation="Vertical"
+                Spacing="10"
+                Margin="10"
+                Width="400">
+        <TextBlock Text="The Password or Full Name is invalid for this user" 
+                   IsVisible="False"
+                   x:Name="ErrorTextBlock"/>
+        <TextBox Watermark="FullName"
+                 x:Name="FullNameTextBox"
+                 Classes="SignIn"/>
+        <TextBox Watermark="UserName"
+                 x:Name="UserNameTextBox"
+                 Classes="SignIn"/>
+        <TextBox Watermark="Password"
+                 x:Name="PasswordTextBox"
+                 Classes="SignIn"
+                 PasswordChar="*"/>
+        <Button Click="SignInButton_OnClick"
+                Classes="SignIn"/>
+    </StackPanel>
+</Window>

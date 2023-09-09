@@ -1,22 +1,21 @@
-using Avalonia.Controls;
-using DesktopClient.Models.Messages;
+#region
+
 using System.Collections.ObjectModel;
 using Avalonia;
-using Avalonia.Data;
-using Avalonia.Data.Core;
-using Avalonia.LogicalTree;
-using Avalonia.Markup.Xaml.MarkupExtensions;
-using Avalonia.Markup.Xaml.MarkupExtensions.CompiledBindings;
-using Avalonia.Styling;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.CodeAnalysis.Operations;
+using DesktopClient.Models.Messages;
+
+#endregion
 
 namespace DesktopClient.Views
 {
     public sealed partial class ChatView : UserControl
     {
         private static Control _focusableElement = null!;
+        private static ScrollViewer _scrollingElement = null!;
         private const string FOCUSABLE_ELEMENT_NAME = "FOCUSABLE_ELEMENT";
+        private const string SCROLLING_ELEMENT_NAME = "SCROLLING_ELEMENT";
         
         #region Messages
 
@@ -94,11 +93,13 @@ namespace DesktopClient.Views
         {
             InitializeComponent();
             _focusableElement = this.FindControl<Control>(FOCUSABLE_ELEMENT_NAME)!;
+            _scrollingElement = this.FindControl<ScrollViewer>(SCROLLING_ELEMENT_NAME)!;
         }
 
         public static void SetFocusToFocusableElement()
         {
             _focusableElement.Focus();
+            _scrollingElement.ScrollToEnd();
         }
     }
     

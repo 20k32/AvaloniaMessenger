@@ -1,12 +1,10 @@
-﻿using Avalonia;
-using Avalonia.Controls.Converters;
-using Avalonia.Layout;
-using Avalonia.Media;
+﻿#region
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Layout;
+
+#endregion
 
 namespace DesktopClient.Models.Messages
 {

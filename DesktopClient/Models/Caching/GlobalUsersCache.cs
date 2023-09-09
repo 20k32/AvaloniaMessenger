@@ -1,10 +1,11 @@
+#region
+
 using System.Buffers;
 using System.Collections.Generic;
-using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Models.ListBox;
-using DesktopClient.Views;
+
+#endregion
 
 namespace DesktopClient.Models.Caching;
 

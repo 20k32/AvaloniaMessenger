@@ -18,7 +18,8 @@
               ColumnDefinitions="Auto, *">
             <Button Content="Me"
                     Classes="AvaliableUsers"
-                    Grid.Column="0" />
+                    Grid.Column="0"
+                    Command="{Binding #AvaliableUsersControl.SignInCommand}"/>
             <TextBox Classes="AvaliableUsers"
                      Grid.Column="1"
                      x:Name="ParentTextBox"

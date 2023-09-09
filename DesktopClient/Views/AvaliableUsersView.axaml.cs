@@ -1,9 +1,12 @@
-using Avalonia.Controls;
-using DesktopClient.Models.ListBox;
+#region
+
 using System.Collections.ObjectModel;
 using Avalonia;
-using Avalonia.Styling;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
+using DesktopClient.Models.ListBox;
+
+#endregion
 
 namespace DesktopClient.Views
 {
@@ -60,6 +63,24 @@ namespace DesktopClient.Views
         {
             get => _searchOptions;
             set => SetAndRaise(SearchOptionsProperty, ref _searchOptions, value);
+        }
+
+        #endregion
+
+        #region RegionName
+
+        private IRelayCommand _signInCommand;
+
+        public static readonly DirectProperty<AvaliableUsersView, IRelayCommand> SignInCommandProperty =
+            AvaloniaProperty.RegisterDirect<AvaliableUsersView, IRelayCommand>(
+                nameof(SignInCommand), 
+                o => o.SignInCommand, 
+                (o, v) => o.SignInCommand = v);
+
+        public IRelayCommand SignInCommand
+        {
+            get => _signInCommand;
+            set => SetAndRaise(SignInCommandProperty, ref _signInCommand, value);
         }
 
         #endregion

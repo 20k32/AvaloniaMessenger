@@ -11,7 +11,8 @@
       <StyleInclude Source="avares://DesktopClient/Styles/AvaliableUsersViewStyles.axaml"/>
       <StyleInclude Source="avares://DesktopClient/Views/Message.axaml"/>
       <StyleInclude Source="avares://DesktopClient/Styles/UIStyles.axaml"/>
-      <StyleInclude Source="avares://DesktopClient/Styles/ScrollViewerStyles.axaml"></StyleInclude>
+      <StyleInclude Source="avares://DesktopClient/Styles/ScrollViewerStyles.axaml"/>
+      <StyleInclude Source="avares://DesktopClient/Styles/SignInWindowStyles.axaml"/>
     </Application.Styles>
 
   <Application.Resources>

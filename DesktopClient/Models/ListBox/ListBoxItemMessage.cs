@@ -1,5 +1,8 @@
-﻿using Avalonia.Controls;
+﻿#region
+
 using DesktopClient.Views;
+
+#endregion
 
 namespace DesktopClient.Models.ListBox
 {

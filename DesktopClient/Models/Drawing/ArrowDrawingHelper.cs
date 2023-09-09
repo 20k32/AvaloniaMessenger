@@ -1,6 +1,10 @@
-﻿using Avalonia;
+﻿#region
+
+using Avalonia;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
+
+#endregion
 
 namespace DesktopClient.Models.Drawing
 {

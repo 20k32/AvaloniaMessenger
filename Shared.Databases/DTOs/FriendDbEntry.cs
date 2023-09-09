@@ -2,8 +2,8 @@ namespace Shared.Databases.DTOs;
 
 public class FriendDbEntry
 {
-    public string FullName;
-    public string UserName;
+    public string FullName { get; set; }
+    public string UserName { get; set; }
 
     public FriendDbEntry(string fullName, string userName) =>
         (FullName, UserName) = (fullName, userName);

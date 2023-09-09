@@ -1,9 +1,13 @@
-﻿using Avalonia;
+﻿#region
+
+using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using DesktopClient.Views;
 using Microsoft.Extensions.DependencyInjection;
+
+#endregion
 
 namespace DesktopClient;
 

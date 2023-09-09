@@ -1,10 +1,10 @@
-﻿using Avalonia.Data.Converters;
+﻿#region
+
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Avalonia.Data.Converters;
+
+#endregion
 
 namespace DesktopClient.Converters
 {

@@ -1,7 +1,10 @@
+#region
+
 using Avalonia;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Models;
+
+#endregion
 
 namespace DesktopClient.Views
 {

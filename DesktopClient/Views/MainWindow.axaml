@@ -23,7 +23,8 @@
     <views:AvaliableUsersView Grid.Column="0"
                               FriendsList="{Binding FriendsList}"
                               SelectedFriend="{Binding SelectedItem, Mode=TwoWay}"
-                              SearchOptions="{Binding SearchText, Mode=TwoWay}"/>
+                              SearchOptions="{Binding SearchText, Mode=TwoWay}"
+                              SignInCommand="{Binding OpenAuthDialogWindowCommand}"/>
 
     <GridSplitter Grid.Column="1"
                   Background="Black"

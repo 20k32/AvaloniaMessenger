@@ -9,7 +9,8 @@
              x:Name="ChatViewControl">
   <Grid RowDefinitions="*, Auto"
         Background="Green">
-      <ScrollViewer Grid.Row="0">
+      <ScrollViewer Grid.Row="0"
+                    x:Name="SCROLLING_ELEMENT">
           <ItemsControl ItemsSource="{Binding #ChatViewControl.Messages}">
               <ItemsControl.ItemTemplate>
                   <DataTemplate>

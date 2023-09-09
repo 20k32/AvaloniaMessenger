@@ -1,10 +1,10 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+#region
+
 using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Models;
+
+#endregion
 
 namespace DesktopClient.Views;
 

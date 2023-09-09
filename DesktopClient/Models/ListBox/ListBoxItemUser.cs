@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Reactive.Subjects;
 using Avalonia;
 using Avalonia.Data;
 using CommunityToolkit.Mvvm.Input;
 using DesktopClient.Views;
+
+#endregion
 
 namespace DesktopClient.Models.ListBox
 {
